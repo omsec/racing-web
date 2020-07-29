@@ -1,0 +1,42 @@
+<div *ngIf="content.itemType==='track'">
+  <div class="thumbnail">
+    <a [ngSwitch]=content.seriesCode [routerLink]="['/courses', content.id]">
+      <img *ngSwitchCase="SERIES.roadRacing" src="assets/images/bp/road.png" alt="Blueprint" class="rounded">
+      <img *ngSwitchCase="SERIES.dirtRacing" src="assets/images/bp/dirt.png" alt="Blueprint" class="rounded">
+      <img *ngSwitchCase="SERIES.crossCountry" src="assets/images/bp/country.png" alt="Blueprint" class="rounded">
+    </a>
+
+    <div class="caption">
+      {{ content.itemName }}
+      <!-- <h6><a [routerLink]="['/course', content.id]">{{ content.itemName }}</a></h6> -->
+      <p class="user"> {{ content.itemInfo1 }} </p>
+      <p class="forza-share">{{ content.itemInfo2 }}</p>
+
+    </div>
+      <div>
+        <ew-rating [rating]=content.rating [showImmediately]=true></ew-rating>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="content.itemType==='championship'">
+  <div class="thumbnail">
+    <a [routerLink]="['/championships', content.id]">
+      <img src="assets/images/cmp/road.png" alt="championship" class="rounded">
+    </a>
+
+    <div class="caption">
+      {{ content.itemName }}
+      <!-- <h6><a [routerLink]="['/course', content.id]">{{ content.itemName }}</a></h6> -->
+      <p> {{ content.itemInfo1 }} </p>
+      <p> {{ content.itemInfo2 }} </p>
+
+    </div>
+      <div>
+        <ew-rating [rating]=content.rating [showImmediately]=true></ew-rating>
+    </div>
+  </div>
+</div>
+
+

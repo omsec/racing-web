@@ -1,0 +1,50 @@
+<div>
+  <div *ngIf="uploadResponse && uploadResponse.status === 'error'"  class="invalid-feedback">
+    Please make sure that file was max. 2MB
+  </div>
+  <!--
+  <div *ngIf="uploadResponse && uploadResponse.status === 'success'">
+    <img src="{{'appUrl' | env }} {{uploadResponse.url}}" />
+  </div>
+  -->
+
+  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-row">
+      <div class="input-group mb-3">
+        <div class="custom-file">
+          <input
+            type="file"
+            accept="image/*"
+            class="custom-file-input"
+            id="screenshot"
+            (change)="onFileSelect($event)">
+          <label class="custom-file-label" for="screenshot" aria-describedby="addonFile">Choose file</label>
+        </div>
+        <div class="input-group-append">
+          <span class="input-group-text" id="addonFile">Upload</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="addonDescription">@</span>
+        </div>
+        <input
+          formControlName="description"
+          type="text"
+          class="form-control"
+          placeholder="Description"
+          aria-label="Description"
+          aria-describedby="addonDescription">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,9 @@
+<div class="row">
+  <div class="col">
+    <div class="border border-primary rounded" style="text-align: center;">
+      <a [routerLink]="['/profiles', currentUser.userId]">{{ currentUser.username}}</a>
+      &#124;
+      <a (click)="logout()">logout</a>
+    </div>
+  </div>
+</div>

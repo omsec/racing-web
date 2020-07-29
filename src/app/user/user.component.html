@@ -1,0 +1,73 @@
+<ng-container *ngIf="user$ | async as usr; else loading">
+
+  <div class="row section">
+    <div class="col-md-8">
+      <div class="card mb-3" style="max-width: 540px;"> <!-- fluid ?-->
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <!-- <img src="https://placehold.it/300x390" class="card-img" alt="..."> -->
+            <img *ngIf="usr.profilePictureUrl.length==0; else showPic" src="assets/images/default-user.png" height="230" class="card-img" alt="No Profile Picture">
+            <ng-template #showPic><img src="{{usr.profilePictureUrl}}" height="230" class="card-img" alt="Profile Picture"></ng-template>
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title"> Rising Star</h5>
+              <p class="card-text">{{ usr.roleText }} </p>
+              <p class="card-text"> <img src="assets/icons/xbox.png" height="28"> {{ usr.xBox }} </p>
+              <p class="card-text"> <img src="assets/icons/discord.png" height="30"> {{ usr.discord }} </p>
+              <!-- ToDo Umrchung in Minuten/Stunden, evtl. als Pipe -->
+              <p class="card-text"><small class="text-muted">Last seen {{ usr.lastSeen | date: 'medium' }} </small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="text-align: right;">
+      <p>S.GG Community</p>
+      <p class="small"><a href="https://discord.gg/GtACuCH">Join us on Discord</a></p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <!--
+      <button
+        type="button"
+        [routerLink]="['/course/edit', courseId]"
+        class="btn btn-warning btn-additional"
+        [disabled]="!authenticationService.canModify(course.metaInfo.createdId)">
+        Change
+      </button>
+      -->
+      <button type="button" class="btn btn-primary" style="margin-bottom: 20px;" (click)="showChangePasswordDlg()">Change Password</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-primary"
+        style="margin-bottom: 20px;"
+        (click)="edit=!edit">
+        Edit Profile
+      </button>
+    </div>
+  </div>
+
+  <ew-edit-user
+    *ngIf="edit===true"
+    [(xBox)]="usr.xBox"
+    [(discord)]="usr.discord"
+    [(profilePicture)]="usr.profilePictureUrl">
+  </ew-edit-user>
+
+  <!-- {{ usr.profilePicture[0].imageURL }} -->
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="row section">
+    <div class="section spinner-border"></div>
+  </div>
+</ng-template>

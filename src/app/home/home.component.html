@@ -1,0 +1,41 @@
+<!-- vielleicht ein Bild? -->
+<!--
+<div class="row carousel-holder">
+  <div class="col-md-12">
+    <ew-teaser></ew-teaser>
+  </div>
+</div>
+-->
+
+<!-- ngContainer verhindert unnötige DOM-Einträge -->
+<ng-container>
+  <div *ngIf="content$ | async as contents; else noContentTmplt" class="row">
+    <div *ngFor="let content of contents" class="col-sm-4 col-lg-4 col-md-4">
+      <ew-preview [content]="content"></ew-preview>
+    </div>
+  </div>
+
+  <!-- leider lässt sich nicht unterscheiden, ob's nichts gibt, oder ob es noch nicht da ist -->
+  <ng-template #noContentTmplt>
+    <div style="padding-top: 20px;">
+      <div class="spinner-border"></div>
+    </div>
+
+  </ng-template>
+</ng-container>
+
+
+<!--
+
+    <div *ngIf="contents.length==0">
+      <div style="padding-top: 20px;">
+        <div class="alert alert-primary" role="alert">
+          <h4>No Content - go create some :-)</h4>
+          <hr>
+          <li>you may <a routerLink="/course/add">add blueprints</a></li>
+          <li>or start with Championships</li>
+        </div>
+      </div>
+    </div>
+
+-->

@@ -1,0 +1,100 @@
+<ng-container *ngIf="championship$ | async as cmp; else loading">
+
+  <div class="row">
+    <div class="col">
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel title="{{cmp.blueprintName}}">
+          <!-- NULL-handling im client damit formatiert werden kann -->
+          <ng-template *ngIf="cmp.description" ngbPanelContent>
+            {{cmp.description}}
+          </ng-template>
+
+          <ng-template *ngIf="!cmp.description" ngbPanelContent>
+            <i>(no description available)</i>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <img src="https://placehold.it/50x50" alt="Game">
+    </div>
+    <!-- Schachtelungen sind scheinbar möglich - Rating in den Main-Service integriert ;-)
+    <ng-container *ngIf="rating$ | async as rating; else loadingRating">
+      <div class="col-sm-3">
+        <ew-rating
+          [rating]=rating.rating
+          [upVotes]=rating.upVotes
+          [downVotes]=rating.downVotes
+          [userVote]=rating.userVote
+          [showImmediately]=false
+          [canVote]=true
+          (voteEvent)=castVote($event)>
+        </ew-rating>
+      </div>
+      <ng-template #loadingRating>
+        <div class="spinner-border"></div>
+      </ng-template>
+    </ng-container>
+    -->
+
+    <div class="col-sm-3">
+      <ew-rating
+        [rating]=cmp.ratingInfo.rating
+        [upVotes]=cmp.ratingInfo.upVotes
+        [downVotes]=cmp.ratingInfo.downVotes
+        [userVote]=cmp.ratingInfo.userVote
+        [showImmediately]=false
+        [canVote]=true
+        (voteEvent)=castVote($event)>
+      </ew-rating>
+    </div>
+
+    <div *ngIf="cmp.races.length==1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Race</div>
+    <div *ngIf="cmp.races.length>1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Races</div>
+    <!-- <div class="col-sm user" style="text-align:right">by <a class="user" [routerLink]="['/profiles', cmp.metaInfo.createdId]">{{cmp.metaInfo.createdName}}</a></div> -->
+    <div class="col-sm user" style="text-align:right">
+      <button
+        type="button"
+        class="btn btn-outline-secondary mr-2 user"
+        placement="bottom"
+        popoverTitle="Badge"
+        ngbPopover="Last seen XXX">
+        <!-- ToDo: Irgend ein Rang/Badge System ;-) -->
+        by {{ cmp.metaInfo.createdName }}
+      </button>
+    </div>
+  </div>
+
+  <!-- https://medium.com/@mjthakur413/how-to-create-table-in-angular-7-using-ngfor-3c2c0875b955 -->
+  <!-- https://stackoverflow.com/questions/8986260/how-to-align-center-the-text-in-html-table-row -->
+  <div class="row">
+    <table class="table table-borderless table-responsive-sm">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col">Course</th>
+          <th scope="col" style="text-align:right">Theme & Car</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let race of cmp.races">
+          <td><img src="https://placehold.it/50x50" alt="Series"></td>
+          <td><img src="https://placehold.it/50x50" alt="Class"></td>
+          <td style="vertical-align: middle;"><a [routerLink]="['/courses', race.trackId]">{{race.trackName}}</a></td>
+          <td *ngIf="race.carId" style="text-align: right; vertical-align: middle">{{race.carName}}</td> <!-- todo: link styling -->
+          <td *ngIf="!race.carId" style="text-align:right; vertical-align: middle;">{{race.carThemeText}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="spinner-border"></div>
+</ng-template>

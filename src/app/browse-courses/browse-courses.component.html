@@ -1,0 +1,39 @@
+<div>
+  <div class="row course-name">
+    <div class="col-md-8"><p class="h5"><a [routerLink]="['/courses', course.id]">{{ course.name }}</a> </p></div>
+    <div class="col-md-4" style="text-align:right"><ew-rating [rating]=course.rating [showImmediately]=true></ew-rating></div>
+  </div>
+
+  <!--
+  <div class="row">
+    <div class="col"><p class="h6"><i>Series</i></p></div>
+    <div class="col"><p class="h6"><i>Class</i></p></div>
+    <div class="col"><p class="h6"><i>Difficulty</i></p></div>
+    <div class="col"><p class="h6"><i>Car Theme</i></p></div>
+    <div class="col"><p class="h6"><i>Car</i></p></div>
+    <div class="col"><p class="h6"><i>Season</i></p></div>
+    <div class="col"><p class="h6"><i>Weather</i></p></div>
+    <div class="col"><p class="h6"><i>Time of Day</i></p></div>
+  </div>
+  -->
+
+  <div class="row">
+    <div class="col-md-8"><p class="user">by {{ course.designer }}</p></div>
+    <div class="col" style="text-align:right"><p class="forza-share">{{ course.forzaSharing | forzashare }}</p></div>
+  </div>
+
+  <div class="row">
+    <div [ngSwitch]="course.seriesCode" class="col">
+      <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="Road Racing" class="rounded">
+      <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="Dirt Racing" class="rounded">
+      <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
+      <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded">
+    </div>
+    <div class="col"><img src="https://placehold.it/50x50" alt="{{course.carClassText}}"></div>
+    <div class="col"><img src="https://placehold.it/50x50" alt="{{course.difficultyText}}"></div>
+    <div class="col" style="color: darkgray">
+      <p *ngIf="course.carId" style="text-align:right">{{ course.carName}}</p>
+      <p *ngIf="course.carThemeCode && !course.carId" style="text-align:right">{{ course.carThemeText}}</p>
+    </div>
+  </div>
+</div>

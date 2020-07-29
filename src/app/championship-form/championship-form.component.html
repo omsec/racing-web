@@ -1,0 +1,148 @@
+<!-- https://stackoverflow.com/questions/47011521/angular-4-select-default-value-in-dropdown-reactive-forms -->
+<form [formGroup]="championshipForm" (ngSubmit)="onSubmit(races.length)">
+
+  <div class="row">
+    <p class="text-left">Basics</p>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selGame">Game</label>
+      <select id="selGame" class='form-control' formControlName="gameCode" [ngClass]="{ 'is-invalid': submitted && championshipFrm.gameCode.errors }">
+        <option *ngFor="let game of Game" value="{{game.code}}">{{ game.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && championshipFrm.gameCode.errors" class="invalid-feedback">
+        <div *ngIf="championshipFrm.gameCode.errors.required">Game is required</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="iptName">Name</label>
+      <input
+        formControlName="blueprintName"
+        type="text"
+        class="form-control"
+        placeholder="my blueprint"
+        id="iptName"
+        [ngClass]="{ 'is-invalid': submitted && championshipFrm.blueprintName.errors }">
+      <!-- error block -->
+      <div *ngIf="submitted && championshipFrm.blueprintName.errors" class="invalid-feedback">
+        <div *ngIf="championshipFrm.blueprintName.errors.required">blueprintName is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="taDescription">Description</label>
+      <textarea
+        formControlName="description"
+        class="form-control"
+        id="taDescription">
+      </textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <p class="text-left">Races</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <div class="alert alert-secondary" role="alert">
+        Add some real blueprints to your Championship
+      </div>
+    </div>
+  </div>
+
+  <div formArrayName="races">
+    <div *ngFor="let ctrl of races.controls; index as i" [formGroupName]="i">
+
+      <p><i><u>Event #{{ i+1 }}</u></i></p>
+
+      <div class="form-row">
+        <div class="form-group col-md4">
+          <label for="selSeries">Series</label>
+          <select id="selSeries" class='form-control' formControlName="seriesCode" [ngClass]="{ 'is-invalid': submitted && ctrl.get('seriesCode').errors }">
+            <option *ngFor="let serie of Series" value="{{serie.code}}">{{ serie.text }}</option>
+          </select>
+          <!-- error block -->
+          <div *ngIf="submitted && ctrl.get('seriesCode').errors" class="invalid-feedback">
+            <div *ngIf="ctrl.get('seriesCode').errors.required">Series is required</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="iptCourse">Course</label>
+          <input id="iptCourse" type="text" class="form-control"
+            [class.is-invalid]="courseSearchFailed"
+            [ngbTypeahead]="searchCourses"
+            [resultFormatter]="formatCourseMatches"
+            [inputFormatter]="formatCourseMatches"
+            [editable]='false'
+            (selectItem)="OnCourseSelected($event)"
+            formControlName="courseInfo"
+            [ngClass]="{ 'is-invalid': submitted && ctrl.get('courseInfo').errors }">
+            <!-- error block -->
+            <div *ngIf="submitted && ctrl.get('courseInfo').errors" class="invalid-feedback">
+              <div *ngIf="ctrl.get('courseInfo').errors.required">Course is required</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md4">
+          <label for="selCarClass">Car Class</label>
+          <select id="selCarClass" class='form-control' formControlName="carClassCode" [ngClass]="{ 'is-invalid': submitted && ctrl.get('carClassCode').errors }">
+            <option *ngFor="let carClass of CarClass" value="{{carClass.code}}">{{ carClass.text }}</option>
+          </select>
+          <!-- error block -->
+          <div *ngIf="submitted && ctrl.get('carClassCode').errors" class="invalid-feedback">
+            <div *ngIf="ctrl.get('carClassCode').errors.required">Series is required</div>
+          </div>
+        </div>
+        <div class="form-group col-md4">
+          <label for="selCarTheme">Car Theme</label>
+          <select id="selCarTheme" class='form-control' formControlName="carThemeCode" [ngClass]="{ 'is-invalid': submitted && ctrl.get('carThemeCode').errors }">
+            <option *ngFor="let carTheme of CarTheme" value="{{carTheme.code}}">{{ carTheme.text }}</option>
+          </select>
+          <!-- error block -->
+          <div *ngIf="submitted && ctrl.get('carThemeCode').errors" class="invalid-feedback">
+            <div *ngIf="ctrl.get('carThemeCode').errors.required">Series is required</div>
+          </div>
+        </div>
+        <div class="form-group col">
+          <label for="iptCar">Car</label>
+          <input id="iptCar" type="text" class="form-control"
+            [class.is-invalid]="carSearchFailed"
+            [ngbTypeahead]="searchCars"
+            [resultFormatter]="formatCarMatches"
+            [inputFormatter]="formatCarMatches"
+            [editable]='false'
+            formControlName="carInfo">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="addRaceControls(races.controls.length)">
+      + Race
+    </button>
+  </div>
+
+  <hr>
+  <div>
+    <button
+      type="submit"
+      class="btn btn-primary">
+      Save Championship
+    </button>
+  </div>
+
+</form>

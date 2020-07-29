@@ -1,0 +1,35 @@
+<div>
+  <div class="row cmp-name">
+    <div class="col-md-8"><p class="h5"><a [routerLink]="['/championships', cmp.id]">{{ cmp.name }}</a> </p></div>
+    <div class="col-md-4" style="text-align:right"><ew-rating [rating]=cmp.rating [showImmediately]=true></ew-rating></div>
+  </div>
+
+  <div class="row">
+    <div class="col"><p class="user">by {{ cmp.createdByName }}</p></div>
+  </div>
+
+  <!--
+  <div class="row">
+    <div class="col"><p><i>Races</i></p></div>
+    <div class="col"><p><i>Series</i></p></div>
+    <div class="col"><p><i>Class</i></p></div>
+    <div class="col"><p><i>Car Theme</i></p></div>
+    <div class="col"><p><i>Car</i></p></div>
+  </div>
+  -->
+
+  <div class="row">
+    <div class="col"><img src="https://placehold.it/50x50" alt="{{cmp.countRaces}}"></div>
+    <div [ngSwitch]="cmp.seriesCode" class="col">
+      <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="Road Racing" class="rounded">
+      <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="Dirt Racing" class="rounded">
+      <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
+      <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded">
+    </div>
+    <div class="col"><img src="https://placehold.it/50x50" alt="{{cmp.carClassText}}"></div>
+    <div class="col" style="color: darkgray">
+      <p *ngIf="cmp.countCar>0" style="text-align:right">{{ cmp.carName }}</p>
+      <p *ngIf="cmp.countCarTheme>0" style="text-align:right">{{ cmp.carThemeText }}</p>
+    </div>
+  </div>
+</div>

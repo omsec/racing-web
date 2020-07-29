@@ -1,0 +1,35 @@
+.section {
+  padding-top: 20px;
+}
+
+.course-name {
+  padding: 10px;
+}
+
+.carousel-holder {
+  padding: 10px;
+}
+
+.comments-section {
+  padding: 10px;
+}
+
+/* https://iconify.design/icon-sets/mdi/ */
+
+.voting-icons {
+  margin-left: 10px;
+}
+
+.iconify { color: darkslateblue; }
+
+ .buttons-section {
+  padding: 10px;
+}
+
+.btn-additional {
+  margin-left: 10px;
+}
+
+.thumbnail {
+  width: 10%;
+}

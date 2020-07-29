@@ -1,0 +1,49 @@
+<!-- https://google.github.io/material-design-icons/ -->
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div *ngIf="!canVote; else votingTmpl">
+  <div *ngIf="showImmediately; else showAnimatedTmplt">
+    <p>
+      <span *ngFor="let isEmpty of stars; index as idx" class="material-icons rating">
+        <p> {{ isEmpty ? 'star_border': 'star_rate' }} </p>
+      </span>
+    </p>
+  </div>
+
+  <ng-template #showAnimatedTmplt>
+    <p>
+      <span *ngFor="let isEmpty of stars; index as idx" class="material-icons rating">
+        <p *ewDelay="500 + idx * 200"> {{ isEmpty ? 'star_border': 'star_rate' }} </p>
+      </span>
+    </p>
+  </ng-template>
+
+</div>
+
+<!-- do not show stars in voting mode -->
+<ng-template #votingTmpl>
+  <div class="row">
+    <!-- show correct icon & take correct action based on user's voting state -->
+    <div [ngSwitch]=currentVote class="col-sm-3">
+      <img *ngSwitchCase="VOTE_ACTION.positive" src="assets/icons/rating/up-green.png" height="30" alt="revoke vote" (click)="castVote(VOTE_ACTION.notVoted)">
+      <img *ngSwitchDefault src="assets/icons/rating/up-gray.png" height="30" alt="up vote" (click)="castVote(VOTE_ACTION.positive)">
+    </div>
+
+    <div [ngSwitch]=currentVote class="col-sm-3">
+      <img *ngSwitchCase="VOTE_ACTION.negative" src="assets/icons/rating/down-red.png" height="30" alt="revoke vote" (click)="castVote(VOTE_ACTION.notVoted)">
+      <img *ngSwitchDefault src="assets/icons/rating/down-gray.png" height="30" alt="down vote" (click)="castVote(VOTE_ACTION.negative)">
+    </div>
+
+  </div>
+  <!-- show vote count (not synched with API/DB) -->
+  <div class="row">
+    <div class="col-sm-3" style="text-align: left;">
+      {{ this.upVotes }}
+    </div>
+
+    <div class="col-sm-3" style="text-align: right;">
+      {{ this.downVotes }}
+    </div>
+  </div>
+</ng-template>

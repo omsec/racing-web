@@ -1,0 +1,194 @@
+<!-- https://stackoverflow.com/questions/47011521/angular-4-select-default-value-in-dropdown-reactive-forms -->
+<form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <p class="text-left">Basics</p>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selGame">Game</label>
+      <select id="selGame" class='form-control' formControlName="gameCode" [ngClass]="{ 'is-invalid': submitted && courseFrm.gameCode.errors }">
+        <option *ngFor="let game of Game" value="{{game.code}}">{{ game.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.gameCode.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.gameCode.errors.required">Game is required</div>
+      </div>
+    </div>
+
+    <div class="form-group col">
+      <label for="iptName">Name</label>
+      <input
+        formControlName="courseName"
+        type="text"
+        class="form-control"
+        placeholder="my blueprint"
+        id="iptName"
+        [ngClass]="{ 'is-invalid': submitted && courseFrm.courseName.errors }">
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.courseName.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.courseName.errors.required">Coursename is required</div>
+      </div>
+    </div>
+
+    <div class="form-group col-md4">
+      <label for="iptSharingCode">Sharing Code</label>
+      <input id="iptSharingCode" class="form-control" type="number" formControlName="sharingCode" min="100000000" max="999999999" [ngClass]="{ 'is-invalid': submitted && courseFrm.sharingCode.errors }">
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.sharingCode.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.sharingCode.errors.required">Sharing Code is required</div>
+        <div *ngIf="courseFrm.sharingCode.errors.min || courseFrm.sharingCode.errors.max">Sharing Code is invalid</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selSeries">Series</label>
+      <select id="selSeries" class='form-control' formControlName="seriesCode" [ngClass]="{ 'is-invalid': submitted && courseFrm.seriesCode.errors }">
+        <option *ngFor="let series of Series" value="{{series.code}}">{{ series.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.seriesCode.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.seriesCode.errors.required">Series is required</div>
+      </div>
+    </div>
+
+    <div class="form-group col">
+      <label for="chpTerrain">Terrain</label>
+      <tag-input
+        id="chpTerrain"
+        formControlName="terrainCodes"
+        [onlyFromAutocomplete]=true
+        [ngClass]="{ 'is-invalid': submitted && courseFrm.terrainCodes.errors }">
+        <tag-input-dropdown
+          [showDropdownIfEmpty]="true"
+          [autocompleteItems]=Terrain
+          [identifyBy]="'code'"
+          [displayBy]="'text'">
+        </tag-input-dropdown>
+      </tag-input>
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.terrainCodes.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.terrainCodes.errors.required">Please add at least one tag</div>
+      </div>
+    </div>
+
+    <div class="form-group col-md4">
+      <label for="selDifficulty">Difficulty</label>
+      <select id="selDifficulty" class='form-control' formControlName="difficultyCode" [ngClass]="{ 'is-invalid': submitted && courseFrm.difficultyCode.errors }">
+        <option *ngFor="let difficulty of Difficulty" value="{{difficulty.code}}">{{ difficulty.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.difficultyCode.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.difficultyCode.errors.required">Difficulty is required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <div class="form-group col">
+        <label for="iptForzaRoute">Starting Place</label>
+        <input id="iptForzaRoute" type="text" class="form-control"
+          [class.is-invalid]="searchFailed"
+          [ngbTypeahead]="searchCourse"
+          [resultFormatter]="formatCourseMatches"
+          [inputFormatter]="formatCourseMatches"
+          [editable]='false'
+          formControlName="routeInfo">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <p class="text-left">Restrictions</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selCarClass">Car Class</label>
+      <select id="selCarClass" class='form-control' formControlName="carClassCode">
+        <option *ngFor="let carClass of CarClass" value="{{carClass.code}}">{{ carClass.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col-md4">
+      <label for="selCarTheme">Car Theme</label>
+      <select id="selCarTheme" class='form-control' formControlName="carThemeCode">
+        <option *ngFor="let carTheme of CarTheme" value="{{carTheme.code}}">{{ carTheme.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="iptCar">Car</label>
+      <input id="iptCar" type="text" class="form-control"
+        [class.is-invalid]="searchFailed"
+        [ngbTypeahead]="search"
+        [resultFormatter]="formatMatches"
+        [inputFormatter]="formatMatches"
+        [editable]='false'
+        formControlName="carInfo">
+    </div>
+  </div>
+
+
+  <div class="row">
+    <p class="text-left">Condititions</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="selSeason">Season</label>
+      <select id="selSeason" class='form-control' formControlName="seasonCode" [ngClass]="{ 'is-invalid': submitted && courseFrm.seasonCode.errors }">
+        <option *ngFor="let season of Season" value="{{season.code}}">{{ season.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.seasonCode.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.seasonCode.errors.required">Season is required</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="selDaytime">Time of Day</label>
+      <select id="selDaytime" class='form-control' formControlName="daytimeCode">
+        <option *ngFor="let daytime of DayTime" value="{{daytime.code}}">{{ daytime.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="selWeather">Weather</label>
+      <select id="selWeather" class='form-control' formControlName="weatherCode">
+        <option *ngFor="let weather of Weather" value="{{weather.code}}">{{ weather.text }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <p class="text-left">Additional</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="iptLaps">Laps</label>
+      <input id="iptLaps" class="form-control" type="number" formControlName="laps" min="1" max="50" [ngClass]="{ 'is-invalid': submitted && courseFrm.laps.errors }">
+      <!-- error block -->
+      <div *ngIf="submitted && courseFrm.laps.errors" class="invalid-feedback">
+        <div *ngIf="courseFrm.laps.errors.required">Please suggest an ideal number of laps</div>
+        <div *ngIf="courseFrm.laps.errors.min || courseFrm.laps.errors.max">Laps must be between 1 and 50</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="selTimeProgression">Time Progression</label>
+      <select id="selTimeProgression" class='form-control' formControlName="timeProgressionCode">
+        <option *ngFor="let timeProgression of TimeProgression" value="{{timeProgression.code}}">{{ timeProgression.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="iptDistance">Distance (KM)</label>
+      <input id="iptDistance" class="form-control" type="number" formControlName="distanceKM">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col" style="text-align: right;">
+      <!-- test: mit *ngIf/else Add/Save setzen-->
+      <button *ngIf="editing===false" class="btn btn-primary" type="submit" [disabled]=courseFrm.invalid>Create Blueprint</button>
+      <button *ngIf="editing===true" class="btn btn-primary" type="submit" [disabled]=courseFrm.invalid>Save Blueprint</button>
+    </div>
+  </div>
+</form>

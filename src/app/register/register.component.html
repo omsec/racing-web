@@ -1,0 +1,99 @@
+<div class="card">
+  <h4 class="card-header">Register account</h4>
+  <div class="card-body">
+
+    <form [formGroup]="registerGrp" (ngSubmit)="onSubmit()">
+
+      <!-- Gruppen für Fehlermledungen & Styling -->
+      <div class="form-group">
+        <label for="inputUsername">Choose your Username</label>
+        <input formControlName="username" type="text" class="form-control" placeholder="eMail-address" [ngClass]="{ 'is-invalid': submitted && registerFrm.username.errors }">
+        <!-- errorblock -->
+        <div *ngIf="submitted && registerFrm.username.errors" class="invalid-feedback">
+          <!-- einzelne meldungen -->
+          <div *ngIf="registerFrm.username.errors.required">Username is required</div>
+          <div *ngIf="registerFrm.username.errors.email">Username must be an eMail-Address</div>
+          <div *ngIf="registerFrm.username.errors.userExists">Username is already taken - choose another</div>
+        </div>
+      </div>
+
+      <!-- Passwordfelder in einer Zeile -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputPassword">Password</label>
+          <input id="password" formControlName="password" type="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerFrm.password.errors }">
+          <small class="form-text text-muted">Your password must be at least 8 characters long</small>
+          <div *ngIf="submitted && registerFrm.password.errors" class="invalid-feedback">
+            <div *ngIf="registerFrm.password.errors.required">Password is required</div>
+            <div *ngIf="registerFrm.password.errors.minlength">Must be at least 8 characters</div>
+            <div *ngIf="registerFrm.password.errors.hasNumber">Must contain at least one number</div>
+            <div *ngIf="registerFrm.password.errors.hasCapitalCase">Must contain at least 1 character in Capital case</div>
+            <div *ngIf="registerFrm.password.errors.hasSmallCase">Must contain at least 1 character in small case</div>
+            <div *ngIf="registerFrm.password.errors.hasSpecialCharacters">Must contain at least 1 special characters</div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerFrm.confirmPassword.errors }">
+          <div *ngIf="submitted && registerFrm.confirmPassword.errors" class="invalid-feedback">
+            <div *ngIf="registerFrm.confirmPassword.errors.required">Please repeat password</div>
+            <div *ngIf="registerFrm.confirmPassword.errors.mustMatch">Passwords do not match</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weitere Zeile -->
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputXbox">XBOX Gaming Tag</label>
+          <input formControlName="xboxName" type="text" class="form-control">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="inputDiscord">Discord Name</label>
+          <input formControlName="discordName" type="text" class="form-control">
+        </div>
+      </div>
+
+      <!-- Validation Test-->
+      <div class="form-group">
+        <div class="form-check">
+          <input formControlName="accepted" type="checkbox" class="form-check-input">
+          <label for="accepted" class="form-check-label">
+            I agree with Terms & Conditions
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="registerFrm.invalid" class="btn btn-primary"  [ngClass]="{ 'is-invalid': submitted && registerFrm.accepted.errors }">Register</button>
+      <div *ngIf="submitted && registerFrm.accepted.errors" class="invalid-feedback">
+        <div *ngIf="registerFrm.accepted.errors.required">You must accept terms & conditions to use this service.</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+
+<!-- Klasse fügt "Standard-Abstand" ein -->
+<div class="card mt-3 mb-0">
+  <h6 class="card-header">Terms & Conditions</h6>
+  <div class="card-body">
+    <!-- https://theaudacitytopodcast.com/how-to-make-a-youtube-subscription-link-and-get-more-subscribers/ -->
+    <!-- https://embedsocial.com/knowledge-base/embed-youtube-feed/ -->
+
+    <!-- https://tubularinsights.com/youtube-subscribe-button/ -->
+    <!-- https://breadnbeyond.com/youtube-marketing/youtube-update-easy-way-to-embed-subscribe-button-on-your-website/ -->
+    <!-- <a href="https://www.youtube.com/channel/UCbnwFfUicF1YLPMuiN2MibQ?sub_confirmation=1">Subscribe </a>to the official channel -->
+    <p>
+      <b>ACHTUNG</b><br>
+      Diese Web-Seite befindet sich noch in Entwicklung. Bitte nur Testdaten erfassen. Die Datenbank wird möglicherweise nochmals zurückgesetzt.
+    </p>
+
+    <p>
+      Support: genevatouring auf discord ;-)
+    </p>
+
+  </div>
+</div>

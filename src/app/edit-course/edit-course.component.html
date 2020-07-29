@@ -1,0 +1,6 @@
+<ew-course-form
+  *ngIf="course"
+  (submitCourse)="updateCourse($event)"
+  [course]="course"
+  [editing]="true">
+</ew-course-form>

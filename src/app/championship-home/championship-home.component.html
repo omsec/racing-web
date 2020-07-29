@@ -1,0 +1,56 @@
+<form [formGroup]="searchFrm">
+  <div class="form-row search">
+    <!-- ToDo: entfernen; nur in CMP sinnvoll -->
+    <div class="colm-md4">
+      <select id="selGame" class='form-control' formControlName="gameCode" (change)="searchHandler()">
+        <option *ngFor="let game of Game" value="{{game.code}}">{{ game.text }}</option>
+      </select>
+    </div>
+
+    <!-- ToDo: auf type="search" umstellen -->
+    <div class="col">
+      <input
+        id="iptSearch"
+        type="text"
+        class="form-control"
+        formControlName="searchTerm"
+        placeholder="search championships, blueprints, cars, creators..."
+        (keyup)="searchHandler()"
+      />
+    </div>
+  </div>
+
+<div class="form-row search">
+  <hr>
+  <!-- es geht beides: a/button; button bevorzugt (disabled) -->
+  <!-- <a class="btn btn-primary" routerLink="/course/add">New</a> -->
+  <button
+    type="button"
+    [routerLink]="['/championship/add']"
+    class="btn btn-primary btn-additional"
+    [disabled]="!authenticationService.canCreate()">
+    New
+  </button>
+</div>
+
+<ng-container *ngIf="championships$ | async as championships; else loadingChampionships">
+
+  <table class="table table-borderless table-responsive-sm">
+    <tbody>
+      <tr *ngFor="let item of championships | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+        <ew-browse-championship [cmp]=item></ew-browse-championship>
+      </tr>
+    </tbody>
+  </table>
+
+  <ngb-pagination
+    [(page)]="page"
+    [pageSize]="pageSize"
+    [collectionSize]="championships.length">
+  </ngb-pagination>
+
+</ng-container>
+
+<ng-template #loadingChampionships>
+  <div class="spinner-border"></div>
+</ng-template>

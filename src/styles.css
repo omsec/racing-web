@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+/* https://bootswatch.com/ theme "Slate" */
+@import 'bootstrap.min.css';
+
+.forza-share {
+  color: blueviolet;
+  font-style: italic;
+  font-weight: bold;
+ }
+
+ .rating {
+  color: darkred;
+ }
+
+ .user {
+   color: cornflowerblue;
+   font-style: italic;
+ }

@@ -1,0 +1,53 @@
+<ng-container *ngIf="images$ | async as images; else noImages">
+
+  <div *ngFor="let img of images" class="row">
+    <div class="col-sm-6" >
+      <img src="{{img.imageURL}}" witdt="300" height="200">
+    </div>
+
+    <div class="col-sm-6">
+      <p>Provided by {{ img.xBoxName || img.discordName || img.userName}}</p>
+      <p><i>{{ img.description }}</i></p>
+
+      <button
+        id="btnRemove"
+        type="button"
+        (click)="OnRemove(img.id)"
+        class="btn btn-light">
+        Remove
+    </button>
+
+    </div>
+  </div>
+
+  <hr>
+  <!-- uploading component -->
+  <div *ngIf="images.length<5; else imgListFull" class="row">
+    <div class="col-sm-12">
+      <ew-upload
+        [objectType]="objectType"
+        [objectId]="objectId"
+        (uploadedEvent)="OnChange()">
+      </ew-upload>
+    </div>
+  </div>
+
+  <ng-template #imgListFull>
+    <div class="alert alert-secondary" role="alert">
+      Picture limit exceeded - please remove some before adding new ones.
+    </div>
+  </ng-template>
+
+</ng-container>
+
+<ng-template #noImages>
+  <div class="row">
+    <div class="col-sm-6">
+      <ew-upload
+        [objectType]="objectType"
+        [objectId]="objectId"
+        (uploadedEvent)="OnChange()">
+      </ew-upload>
+    </div>
+  </div>
+</ng-template>

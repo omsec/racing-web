@@ -1,0 +1,57 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <div class="form" style="margin-bottom: 20px;">
+    <div class="row">
+      <div class="col-md-4">
+        <input
+          formControlName="xBox"
+          type="text"
+          class="form-control"
+          placeholder="XBOX Gaming Tag"
+          id="iptXBox">
+      </div>
+
+      <div class="col-md-4">
+        <input
+          formControlName="discord"
+          type="text"
+          class="form-control"
+          placeholder="Discord Name"
+          id="iptDiscord">
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-8">
+        <!-- <button type="button" class="btn btn-primary btn-block">Choose Profile Picture</button> -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+          </div>
+          <div class="custom-file">
+            <input type="file" accept="image/*" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="onFileSelect($event)">
+            <label class="custom-file-label" for="inputGroupFile01">Choose Profile Picture</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-8">
+        <div *ngIf="error===true" class="alert alert-danger mt-3 mb-0">Could not change Profile Picture</div>
+      </div>
+    </div>
+
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-4">
+        <button type="button" class="btn btn-warning btn-block">Delete Account</button>
+      </div>
+    </div>
+
+  </div>
+</form>
