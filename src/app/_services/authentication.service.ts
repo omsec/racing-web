@@ -54,7 +54,7 @@ export class AuthenticationService {
   canModify(objectCreatorId: number): boolean {
     // lint meldet hier einen falschen fehler: es darf nicht === sein
     // console.log('booh'); // Todo: Warum wird das so oft gerufen?
-    return ((objectCreatorId === this.currentUserValue.userId) || (this.currentUserValue.roleCode === Role.Administrator));
+    return (objectCreatorId == this.currentUserValue.userId) || (this.currentUserValue.roleCode == Role.Administrator);
   }
 
   // neue einträge können ab stufe 'Member' erstellt werden

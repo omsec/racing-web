@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Course } from '../_models/course';
@@ -7,6 +7,7 @@ import { CourseService } from '../_services/course.service';
 import { RatingService } from '../_services/rating.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Game, TrackType, Series, CarClass, Terrain } from '../_models/domain-codes';
+import { Route } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'ew-course',
@@ -29,6 +30,7 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private courseService: CourseService,
     private ratingService: RatingService,
     public authenticationService: AuthenticationService) { }
@@ -41,6 +43,16 @@ export class CourseComponent implements OnInit {
   castVote(vote: number) {
     // console.log(vote);
     this.ratingService.castVote('RAT', this.courseId, vote).subscribe(() => { });
+  }
+
+  deleteCourse(courseId: number) {
+    // console.log(courseId);
+    if (confirm('Do you really want to delete this Blueprint?')) {
+      this.courseService.removeCourse(courseId).subscribe(
+        // ToDo: go back to previous page
+        res => this.router.navigate(['/home'])
+      );
+    }
   }
 
 }

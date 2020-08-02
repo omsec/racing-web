@@ -155,7 +155,7 @@
         Manage Screenshots
       </button>
   </div>
-</div>
+  </div>
 
   <!-- commenents (component)
   <div class="row comments-section">
@@ -165,33 +165,31 @@
   </div>
   -->
 
-<hr>
+  <hr>
 
-<div class="row buttons-section">
-  <hr> <!-- moves buttons to the right -->
-  <!-- <a class="btn btn-primary" routerLink="/course/add">New</a> -->
+  <div class="row buttons-section">
+    <hr> <!-- moves buttons to the right -->
+    <!-- <a class="btn btn-primary" routerLink="/course/add">New</a> -->
 
-  <!-- change button is always shown as a teaser :P -->
-  <button
-    type="button"
-    [routerLink]="['/course/edit', courseId]"
-    class="btn btn-primary btn-additional"
-    [disabled]="!authenticationService.canModify(course.metaInfo.createdId)">
-    Change
-  </button>
+    <!-- change button is always shown as a teaser :P -->
+    <button
+      type="button"
+      [routerLink]="['/course/edit', courseId]"
+      class="btn btn-primary btn-additional"
+      [disabled]="!authenticationService.canModify(course.metaInfo.createdId)">
+      Change
+    </button>
 
-  <!--
-  <button
-    *ngIf="authenticationService.canModify(course.metaInfo.createdId)"
-    type="button"
-    [routerLink]="['/course/edit', courseId]"
-    class="btn btn-warning btn-additional">
-    Delete
-  </button>
-  -->
-
-</div>
-
+    <!-- ToDo: Check for CMPs & delete related Objects (API)
+    <button
+      *ngIf="authenticationService.canModify(course.metaInfo.createdId)"
+      type="button"
+      class="btn btn-warning btn-additional"
+      (click)=deleteCourse(courseId)>
+      Delete
+    </button>
+    -->
+  </div>
 </ng-container>
 
 <ng-template #loading>

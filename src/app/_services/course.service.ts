@@ -148,6 +148,15 @@ export class CourseService {
 
   */
 
+  removeCourse(trackId: number): Observable<any> {
+    // ToDo: Check for CMPs
+    return this.http.put(
+      `${environment.apiUrl}/removeCourse`,
+      { id: trackId },
+      { responseType: 'text'}
+    ).pipe(catchError(this.errorHandler));
+  }
+
   // Für lokale Fehrlebehandlung (interceptors sind global)
   // ToDo: Console entfernen
   private errorHandler(error: HttpErrorResponse): Observable<any> {
