@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <p class="text-left">Restrictions (3/5)</p>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selCarClass">Car Class</label>
+      <select id="selCarClass" class='form-control' formControlName="carClassCode">
+        <option *ngFor="let carClass of CarClass" value="{{carClass.code}}">{{ carClass.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col-md4">
+      <label for="selCarTheme">Car Theme</label>
+      <select id="selCarTheme" class='form-control' formControlName="carThemeCode">
+        <option *ngFor="let carTheme of CarTheme" value="{{carTheme.code}}">{{ carTheme.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="iptCar">Car</label>
+      <input id="iptCar" type="text" class="form-control"
+        [class.is-invalid]="searchFailed"
+        [ngbTypeahead]="search"
+        [resultFormatter]="formatMatches"
+        [inputFormatter]="formatMatches"
+        [editable]='false'
+        formControlName="carInfo">
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row" style="padding-bottom: 20px;">
+    <div class="col">
+      <button
+        class="btn btn-primary"
+        routerLink="/course/add/blueprint">
+        &lt; back
+      </button>
+    </div>
+
+    <div class="col" style="text-align: right;">
+      <button
+        type="submit"
+        class="btn btn-primary">
+        next &gt;
+      </button>
+    </div>
+  </div>
+
+</form>

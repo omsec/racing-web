@@ -7,7 +7,6 @@ import { RegisterComponent } from './register/register.component';
 import { AuthenticationGuard } from './_guards/authentication.guard';
 import { CourseComponent } from './course/course.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
-import { CreateCourseComponent } from './create-course/create-course.component';
 import { EditCourseComponent } from './edit-course/edit-course.component';
 import { ManageScreenshotsComponent } from './manage-screenshots/manage-screenshots.component';
 import { ChampionshipComponent } from './championship/championship.component';
@@ -16,6 +15,11 @@ import { CodeResolverService } from './_services/code-resolver.service';
 import { ChampionshipHomeComponent } from './championship-home/championship-home.component';
 import { UserComponent } from './user/user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { CourseWizardBasicsComponent } from './course-wizard-basics/course-wizard-basics.component';
+import { CourseWizardBlueprintComponent } from './course-wizard-blueprint/course-wizard-blueprint.component';
+import { CourseWizardRestrictionsComponent } from './course-wizard-restrictions/course-wizard-restrictions.component';
+import { CourseWizardConditionsComponent } from './course-wizard-conditions/course-wizard-conditions.component';
+import { CourseWizardAdditionalComponent } from './course-wizard-additional/course-wizard-additional.component';
 
 const routes: Routes = [
   {
@@ -53,7 +57,31 @@ const routes: Routes = [
   },
   {
     path: 'course/add',
-    component: CreateCourseComponent,
+    component: CourseWizardBasicsComponent,
+    resolve: { codes: CodeResolverService},
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'course/add/blueprint',
+    component: CourseWizardBlueprintComponent,
+    resolve: { codes: CodeResolverService},
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'course/add/restrictions',
+    component: CourseWizardRestrictionsComponent,
+    resolve: { codes: CodeResolverService},
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'course/add/conditions',
+    component: CourseWizardConditionsComponent,
+    resolve: { codes: CodeResolverService},
+    canActivate: [AuthenticationGuard]
+  },
+  {
+    path: 'course/add/additional',
+    component: CourseWizardAdditionalComponent,
     resolve: { codes: CodeResolverService},
     canActivate: [AuthenticationGuard]
   },

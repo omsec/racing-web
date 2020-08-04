@@ -155,5 +155,5 @@ export enum TrackDifficulty {
 export enum Terrain {
   road,
   dirt,
-  offriad
+  offroad
 }

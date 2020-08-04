@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <p class="text-left">Condititions (4/5)</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="selSeason">Season</label>
+      <select id="selSeason" class='form-control' formControlName="seasonCode" [ngClass]="{ 'is-invalid': submitted && frm.seasonCode.errors }">
+        <option *ngFor="let season of Season" value="{{season.code}}">{{ season.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && frm.seasonCode.errors" class="invalid-feedback">
+        <div *ngIf="frm.seasonCode.errors.required">Season is required</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="selDaytime">Time of Day</label>
+      <select id="selDaytime" class='form-control' formControlName="daytimeCode">
+        <option *ngFor="let daytime of DayTime" value="{{daytime.code}}">{{ daytime.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="selWeather">Weather</label>
+      <select id="selWeather" class='form-control' formControlName="weatherCode">
+        <option *ngFor="let weather of Weather" value="{{weather.code}}">{{ weather.text }}</option>
+      </select>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row" style="padding-bottom: 20px;">
+    <div class="col">
+      <button
+        class="btn btn-primary"
+        routerLink="/course/add/restrictions">
+        &lt; back
+      </button>
+    </div>
+
+    <div class="col" style="text-align: right;">
+      <button
+        type="submit"
+        class="btn btn-primary">
+        next &gt;
+      </button>
+    </div>
+  </div>
+
+</form>

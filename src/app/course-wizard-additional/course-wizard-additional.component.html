@@ -1,0 +1,48 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <p class="text-left">Additional (5/5)</p>
+  </div>
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="iptLaps">Laps</label>
+      <input id="iptLaps" class="form-control" type="number" formControlName="laps" min="1" max="50" [ngClass]="{ 'is-invalid': submitted && frm.laps.errors }">
+      <!-- error block -->
+      <div *ngIf="submitted && frm.laps.errors" class="invalid-feedback">
+        <div *ngIf="frm.laps.errors.required">Please suggest an ideal number of laps</div>
+        <div *ngIf="frm.laps.errors.min || frm.laps.errors.max">Laps must be between 1 and 50</div>
+      </div>
+    </div>
+    <div class="form-group col">
+      <label for="selTimeProgression">Time Progression</label>
+      <select id="selTimeProgression" class='form-control' formControlName="timeProgressionCode">
+        <option *ngFor="let timeProgression of TimeProgression" value="{{timeProgression.code}}">{{ timeProgression.text }}</option>
+      </select>
+    </div>
+    <div class="form-group col">
+      <label for="iptDistance">Distance (KM)</label>
+      <input id="iptDistance" class="form-control" type="number" formControlName="distanceKM">
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row" style="padding-bottom: 20px;">
+    <div class="col">
+      <button
+        class="btn btn-primary"
+        routerLink="/course/add/conditions">
+        &lt; back
+      </button>
+    </div>
+
+    <div class="col" style="text-align: right;">
+      <button
+        type="submit"
+        class="btn btn-primary">
+        Create Blueprint
+      </button>
+    </div>
+  </div>
+
+</form>

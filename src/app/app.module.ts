@@ -43,6 +43,11 @@ import { FooterComponent } from './footer/footer.component';
 import { PasswordComponent } from './password/password.component';
 import { AppToastComponent } from './app-toast/app-toast.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { CourseWizardBasicsComponent } from './course-wizard-basics/course-wizard-basics.component';
+import { CourseWizardBlueprintComponent } from './course-wizard-blueprint/course-wizard-blueprint.component';
+import { CourseWizardRestrictionsComponent } from './course-wizard-restrictions/course-wizard-restrictions.component';
+import { CourseWizardConditionsComponent } from './course-wizard-conditions/course-wizard-conditions.component';
+import { CourseWizardAdditionalComponent } from './course-wizard-additional/course-wizard-additional.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +78,12 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     FooterComponent,
     PasswordComponent,
     AppToastComponent,
-    EditUserComponent
+    EditUserComponent,
+    CourseWizardBasicsComponent,
+    CourseWizardBlueprintComponent,
+    CourseWizardRestrictionsComponent,
+    CourseWizardConditionsComponent,
+    CourseWizardAdditionalComponent
   ],
   imports: [
     BrowserModule,

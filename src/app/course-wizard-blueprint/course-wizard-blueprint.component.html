@@ -1,0 +1,91 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="row">
+    <p class="text-left">Blueprint (2/5)</p>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="iptForzaRoute">Starting Place</label>
+      <input id="iptForzaRoute" type="text" class="form-control"
+        [class.is-invalid]="searchFailed"
+        [ngbTypeahead]="searchCourse"
+        [resultFormatter]="formatCourseMatches"
+        [inputFormatter]="formatCourseMatches"
+        [editable]='false'
+        formControlName="routeInfo">
+      <!-- error block -->
+      <div *ngIf="submitted && frm.routeInfo.errors" class="invalid-feedback">
+        <div *ngIf="frm.routeInfo.errors.required">Please select a Forza Route</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col">
+      <label for="chpTerrain">Terrain</label>
+      <tag-input
+        id="chpTerrain"
+        formControlName="terrainCodes"
+        [onlyFromAutocomplete]=true
+        [ngClass]="{ 'is-invalid': submitted && frm.terrainCodes.errors }">
+        <tag-input-dropdown
+          [showDropdownIfEmpty]="true"
+          [autocompleteItems]=Terrain
+          [identifyBy]="'code'"
+          [displayBy]="'text'">
+        </tag-input-dropdown>
+      </tag-input>
+      <!-- error block -->
+      <div *ngIf="submitted && frm.terrainCodes.errors" class="invalid-feedback">
+        <div *ngIf="frm.terrainCodes.errors.required">Please add at least one tag</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md4">
+      <label for="selSeries">Series</label>
+      <select id="selSeries" class='form-control' formControlName="seriesCode" [ngClass]="{ 'is-invalid': submitted && frm.seriesCode.errors }">
+        <option *ngFor="let series of Series" value="{{series.code}}">{{ series.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && frm.seriesCode.errors" class="invalid-feedback">
+        <div *ngIf="frm.seriesCode.errors.required">Series is required</div>
+      </div>
+    </div>
+
+    <div class="form-group col-md4">
+      <label for="selDifficulty">Difficulty</label>
+      <select id="selDifficulty" class='form-control' formControlName="difficultyCode" [ngClass]="{ 'is-invalid': submitted && frm.difficultyCode.errors }">
+        <option *ngFor="let difficulty of Difficulty" value="{{difficulty.code}}">{{ difficulty.text }}</option>
+      </select>
+      <!-- error block -->
+      <div *ngIf="submitted && frm.difficultyCode.errors" class="invalid-feedback">
+        <div *ngIf="frm.difficultyCode.errors.required">Difficulty is required</div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="form-row" style="padding-bottom: 20px;">
+    <div class="col">
+      <button
+        class="btn btn-primary"
+        routerLink="/course/add">
+        &lt; back
+      </button>
+    </div>
+
+    <div class="col" style="text-align: right;">
+      <button
+        type="submit"
+        class="btn btn-primary">
+        next &gt;
+      </button>
+    </div>
+  </div>
+
+
+</form>
