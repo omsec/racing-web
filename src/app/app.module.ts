@@ -48,6 +48,7 @@ import { CourseWizardBlueprintComponent } from './course-wizard-blueprint/course
 import { CourseWizardRestrictionsComponent } from './course-wizard-restrictions/course-wizard-restrictions.component';
 import { CourseWizardConditionsComponent } from './course-wizard-conditions/course-wizard-conditions.component';
 import { CourseWizardAdditionalComponent } from './course-wizard-additional/course-wizard-additional.component';
+import { SectimePipe } from './_shared/sectime.pipe';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { CourseWizardAdditionalComponent } from './course-wizard-additional/cour
     CourseWizardBlueprintComponent,
     CourseWizardRestrictionsComponent,
     CourseWizardConditionsComponent,
-    CourseWizardAdditionalComponent
+    CourseWizardAdditionalComponent,
+    SectimePipe
   ],
   imports: [
     BrowserModule,

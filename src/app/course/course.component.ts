@@ -7,7 +7,6 @@ import { CourseService } from '../_services/course.service';
 import { RatingService } from '../_services/rating.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Game, TrackType, Series, CarClass, Terrain } from '../_models/domain-codes';
-import { Route } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'ew-course',

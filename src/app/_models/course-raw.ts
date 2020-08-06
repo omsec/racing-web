@@ -38,7 +38,7 @@ export interface CourseRaw {
   timeProgressionCode: number;
   timeProgressionText?: string;
   // cst info block III
-  defaultLapTimeMin?: number;
+  defaultLapTimeSec?: number;
   distanceKM?: number;
   sharingCode?: number;
   difficultyCode?: number;

@@ -59,7 +59,7 @@ export class CourseFactory {
       weatherCode: Weather.current,
       timeProgressionCode: TimeProgression.fixed,
       // cst info block III
-      defaultLapTimeMin: 0,
+      defaultLapTimeSec: 0,
       distanceKM: 0,
       sharingCode: 0,
       difficultyCode: null,
