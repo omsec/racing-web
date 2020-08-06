@@ -36,9 +36,9 @@ export enum Role {
 }
 
 export enum Game {
-  FH4,
+  FH4/*,
   FH3,
-  FM7,
+  FM7,*/
 }
 
 export enum SharingMode {
@@ -50,8 +50,8 @@ export enum SharingMode {
 export enum Series {
   roadRacing = 1,
   dirtRacing = 2,
-  crossCountry = 3,
-  streetScene = 4
+  crossCountry = 3/*,
+  streetScene = 4*/
 }
 
 export enum CarClass {
