@@ -24,6 +24,11 @@ export class RatingComponent implements OnInit {
   @Input() downVotes = 0;
   @Input() userVote: VoteAction = VoteAction.notVoted;
 
+  // momentan nur zum "durschschleusen"
+  // rückgabe an den parent, da es bei comments mehrere gibt
+  // die rating/voting komponente wird irgendwann re-designed
+  @Input() id = 0;
+
   @Output() voteEvent = new EventEmitter<number>(); // ToDo: Typisieren
 
   currentVote = this.userVote; // keep track of state

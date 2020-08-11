@@ -51,18 +51,18 @@ export class UploadComponent implements OnInit {
     formData.append('description', this.uploadFrm.description.value);
 
     this.uploadService.uploadFile(formData).subscribe(
-      // ToDO: überlegen..
       (res) => {
         this.uploadResponse = res;
-        console.log(res);
+
+        // tell parent component (manage-screnshots) that a file was added
+        this.uploadedEvent.emit();
+        // console.log(res);
       },
       (err) => {
-        console.log(err);
+        // ToDO: überlegen..status etzen?
+        // console.log(err);
       }
     );
-
-    // tell parent component (manage-screnshots) that a file was added
-    this.uploadedEvent.emit();
   }
 
 }

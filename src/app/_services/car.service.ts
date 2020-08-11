@@ -20,6 +20,7 @@ export class CarService {
       `${environment.apiUrl}/searchCarsByName`, { gameCode: 0, searchTerm: searchString}) // searchString im Body übergeben
       // .pipe(map(carNameResultsRaw => carNameResultsRaw.map(carNameResultRaw => CarFactory.fromRaw(carNameResultRaw)), ));
       .pipe(
+        retry(3),
         map(carNameResultsRaw => carNameResultsRaw.map(carNameResultRaw => CarFactory.fromRaw(carNameResultRaw)), ),
         catchError(this.errorHandler));
   }

@@ -19,7 +19,8 @@ export enum CodeTypes {
   TimeProgression = 'Time Progression',
   TrackDifficulty = 'Track Difficulty',
   TrackType = 'Track Type',
-  Weather = 'Weather'
+  Weather = 'Weather',
+  CommentStatus = 'Comment Status'
 }
 
 // symbolic names of code values (used to assign)
@@ -156,4 +157,11 @@ export enum Terrain {
   road,
   dirt,
   offroad
+}
+
+export enum CommentStatus {
+  pending,
+  released,
+  blocked, // (soft) deleted by admin
+  deleted // (soft) deleted by user/creator
 }

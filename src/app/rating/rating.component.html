@@ -23,10 +23,10 @@
 
 <!-- do not show stars in voting mode -->
 <ng-template #votingTmpl>
-  <div class="row">
+  <div class="row voting">
     <!-- show correct icon & take correct action based on user's voting state -->
     <div [ngSwitch]=currentVote class="col-sm-3">
-      <img *ngSwitchCase="VOTE_ACTION.positive" src="assets/icons/rating/up-green.png" height="30" alt="revoke vote" (click)="castVote(VOTE_ACTION.notVoted)">
+      <img *ngSwitchCase="VOTE_ACTION.positive" src="assets/icons/rating/up-green.png" height="30" alt="revoke vote" class="thumbnail float-right" (click)="castVote(VOTE_ACTION.notVoted)">
       <img *ngSwitchDefault src="assets/icons/rating/up-gray.png" height="30" alt="up vote" (click)="castVote(VOTE_ACTION.positive)">
     </div>
 
@@ -37,12 +37,12 @@
 
   </div>
   <!-- show vote count (not synched with API/DB) -->
-  <div class="row">
-    <div class="col-sm-3" style="text-align: left;">
+  <div class="row voting">
+    <div class="col-md-3" style="text-align: left;">
       {{ this.upVotes }}
     </div>
 
-    <div class="col-sm-3" style="text-align: right;">
+    <div class="col-md-3" style="text-align: left;">
       {{ this.downVotes }}
     </div>
   </div>

@@ -45,7 +45,8 @@ export class CourseWizardBasicsComponent implements OnInit {
     this.form = this.formBuilder.group({
       gameCode: [this.data.gameCode, Validators.required],
       courseName: [this.data.name, Validators.required],
-      sharingCode: [this.data.sharingCode, [Validators.required, Validators.min(100000000), Validators.max(999999999)]]
+      sharingCode: [this.data.sharingCode, [Validators.required, Validators.min(100000000), Validators.max(999999999)]],
+      description: ['']
       // ToDo: VisibilityCode (=> metaInfo) -> eigener step am schluss
     });
   }
@@ -63,6 +64,7 @@ export class CourseWizardBasicsComponent implements OnInit {
     this.data.gameCode = this.frm.gameCode.value;
     this.data.name = this.frm.courseName.value;
     this.data.sharingCode = this.frm.sharingCode.value;
+    this.data.description = this.frm.description.value;
 
     // proceed to next step
     this.router.navigate(['/course/add/blueprint']);

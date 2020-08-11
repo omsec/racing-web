@@ -1,0 +1,26 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="col">
+      <!-- closing tag muss interessanterweise hier auf der gleichen linie sein, sonst kein placeholder-->
+      <textarea
+        formControlName="comment"
+        rows="3"
+        cols="50"
+        maxlength="1000"
+        class="form-control"
+        placeholder="tell us what you think..."
+        id="txtComment"></textarea>
+    </div>
+  </div>
+
+  <div class="form-row" style="margin-top: 10px;">
+    <div class="col">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!frm.comment.value">
+        send
+      </button>
+    </div>
+  </div>
+</form>

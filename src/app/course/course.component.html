@@ -1,72 +1,139 @@
-<ng-container *ngIf="course$ | async as course; else loading">
-
-  <div class="row course-name">
-    <!--
-    <div class="col-sm-3">
-      <img src="https://placehold.it/50x50" alt="Game">
-    </div>
-    -->
-    <div class="col text-center display-4">
-      {{ course.name }}
-    </div>
+<div class="form-row course-name">
+  <div class="col text-center display-4">
+    {{ course?.name }}
   </div>
+</div>
 
-  <!-- ToDo: Titel & Bilder dynamisch setzen -->
-  <div class="row text-center">
-    <div class="col">
-      <img src="https://placehold.it/50x50" alt="Game">
-    </div>
-    <div [ngSwitch]="course.typeCode" class="col">
-      <img *ngSwitchCase="TRACKTYPE.standard" src="https://placehold.it/50x50/0000" alt="Type" title="Standard Track">
-      <img *ngSwitchCase="TRACKTYPE.community" src="https://placehold.it/50x50/0000FF" alt="Type" title="Community Track">
-    </div>
-    <div [ngSwitch]="course.seriesCode" class="col">
-      <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="Road Racing" class="rounded">
-      <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="Dirt Racing" class="rounded">
-      <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
-      <!-- <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded"> -->
-    </div>
-    <div class="col">
-      <img src="https://placehold.it/50x50" alt="Car Class">
-    </div>
-
-    <div *ngFor="let terra of course.terrain" class="col">
-      <img src="https://placehold.it/50x50" alt="Terrain {{ terra.text}}">
-    </div>
-
+<!-- ToDo: Titel & Bilder dynamisch setzen -->
+<div class="form-row text-center">
+  <div class="col">
+    <img src="https://placehold.it/50x50" alt="Game">
   </div>
+  <div [ngSwitch]="course?.typeCode" class="col">
+    <img *ngSwitchCase="TRACKTYPE.standard" src="https://placehold.it/50x50/0000" alt="Type" title="Standard Track">
+    <img *ngSwitchCase="TRACKTYPE.community" src="https://placehold.it/50x50/0000FF" alt="Type" title="Community Track">
+  </div>
+  <div [ngSwitch]="course?.seriesCode" class="col">
+    <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="Road Racing" class="rounded">
+    <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="Dirt Racing" class="rounded">
+    <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
+    <!-- <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded"> -->
+  </div>
+  <div class="col">
+    <img src="https://placehold.it/50x50" alt="Car Class">
+  </div>
+</div>
 
-  <div class="row section">
-    <div class="col">
-      <!-- Prio nach Detail: Car->Theme(->Class) -->
-      <p *ngIf="course.carId" class="text-left text-warning"><i>{{ course.carName }} </i></p>
-      <p *ngIf="course.carThemeCode && !course.carId" class="text-left text-warning"><i>{{ course.carThemeText }} </i></p>
+<div class="form-row section">
+  <!-- Prio nach Detail: Car->Theme(->Class) -->
+  <div class="col" class="text-left text-warning">
+    <p *ngIf="course?.carId"><i>{{ course?.carName }} </i></p>
+    <p *ngIf="course?.carThemeCode  && !course?.carId"><i>{{ course?.carThemeText }} </i></p>
+  </div>
+</div>
+
+<div *ngIf="course?.description" class="form-row section">
+  <div class="col">
+    <p><i>{{ course?.description }} </i></p></div>
+</div>
+
+<!-- rating -->
+<div class="form-row">
+  <div class="col-sm-3"></div>
+  <div class="col-sm-3"></div>
+  <div class="col-sm-3"></div>
+  <div *ngIf="course" class="col-sm-3"><p class="text-right"><ew-rating [rating]=course.ratingInfo.rating [showImmediately]=false></ew-rating></p></div>
+</div>
+
+<!-- standard info -->
+<div class="form-row section">
+  <div class="col-sm-3"><h6>Designed by</h6></div>
+  <div class="col-sm-3"><p class="user">{{ course?.metaInfo.createdName }}</p></div>
+  <div class="col-sm-3 forza-share">Sharing Code</div>
+  <div class="col-sm-3"><p class="forza-share text-right">{{ course?.sharingCode | forzashare}}</p></div>
+</div>
+
+<div class="form-row section">
+  <div class="col-sm-6"><img src="https://placehold.it/50x50" class="thumbnail float-right" alt="warning"></div> <!-- auch 50x50 machen -->
+  <div class="col-sm-3"><h6>Difficulty</h6></div>
+  <div class="col-sm-3"><p class="text-right">{{ course?.difficultyText }}</p></div>
+</div>
+<div class="form-row">
+  <div class="col-sm-6"></div>
+  <div class="col-sm-3"><h6>Terrain</h6></div>
+  <div class="col-sm-3">
+    <!-- ToDO: Comma sep -->
+    <!-- https://stackoverflow.com/questions/53394433/comma-separated-list-using-angular-ngfor-and-ngif/53394867 -->
+    <p class="text-right">
+      <span *ngFor="let terra of course?.terrain; last as isLast">{{ terra.text }}<span *ngIf="!isLast">, </span></span>
+    </p>
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="col-sm-6"></div>
+  <div class="col-sm-3"><h6>Starting Area</h6></div>
+  <div class="col-sm-3"><p class="text-right">{{ course?.forzaRouteName }}</p></div>
+</div>
+
+<div class="form-row"><span class="col border-bottom border-primary"></span></div>
+<p class="font-weight-light">Conditions</p>
+
+<div class="form-row">
+  <!-- <div class="col-sm-6"><img src="assets/icons/weather.png" alt="weather" class="thumbnail float-right"></div> -->
+  <div class="col-sm-6">
+    <img *ngIf="course?.weatherCode == WEATHER.current" src="assets/images/weather/current.png" class="thumbnail float-right" alt="weather" title="(current)">
+    <img *ngIf="course?.weatherCode == WEATHER.clear" src="assets/images/weather/clear.png" class="thumbnail float-right" alt="weather" title="clear">
+    <img *ngIf="course?.weatherCode == WEATHER.clearPostRain" src="assets/images/weather/clear-post-rain.png" class="thumbnail float-right" alt="weather" title="clear post rain">
+    <img *ngIf="course?.weatherCode == WEATHER.cloudy" src="assets/images/weather/cloudy.png" class="thumbnail float-right" alt="weather" title="cloudy">
+    <img *ngIf="course?.weatherCode == WEATHER.cloudyPostRain" src="assets/images/weather/cloudy-post-rain.png" class="thumbnail float-right" alt="weather" title="cloudy post rain">
+    <img *ngIf="course?.weatherCode == WEATHER.overcast" src="assets/images/weather/overcast.png" class="thumbnail float-right" alt="weather" title="overcast">
+    <img *ngIf="course?.weatherCode == WEATHER.lightRain && course?.seasonCode == SEASON.winter" src="assets/images/weather/light-snow.png" class="thumbnail float-right" alt="weather" title="light snow">
+    <img *ngIf="course?.weatherCode == WEATHER.lightRain && course?.seasonCode != SEASON.winter" src="assets/images/weather/light-rain.png" class="thumbnail float-right" alt="weather" title="light rain">
+    <img *ngIf="course?.weatherCode == WEATHER.heavyRain && course?.seasonCode == SEASON.winter" src="assets/images/weather/heavy-snow.png" class="thumbnail float-right" alt="weather" title="heavy snow">
+    <img *ngIf="course?.weatherCode == WEATHER.heavyRain && course?.seasonCode != SEASON.winter" src="assets/images/weather/heavy-rain.png" class="thumbnail float-right" alt="weather" title="heavy rain">
+    <img *ngIf="course?.weatherCode == WEATHER.fog" src="assets/images/weather/fog.png" class="thumbnail float-right" alt="weather" title="fog">
+  </div>
+  <div class="col-sm-3"><h6>Season</h6></div>
+  <div class="col-sm-3"><p class="text-right">{{ course?.seasonText }}</p></div>
+</div>
+<div class="form-row">
+  <div class="col-sm-6"></div>
+  <div class="col-sm-3"><h6>Weather Conditions</h6></div>
+  <div class="col-sm-3"><p class="text-right">{{ course?.weatherText }}</p></div>
+</div>
+<div class="form-row">
+  <div class="col-sm-6"></div>
+  <div class="col-sm-3"><h6>Time of Day</h6></div>
+  <div class="col-sm-3"><p class="text-right">{{ course?.daytimeText }}</p></div>
+</div>
+
+<div class="form-row"><span class="col border-bottom border-primary"></span></div>
+<p class="font-weight-light">Gallery</p>
+
+<!-- nette idee -->
+<!-- https://makitweb.com/html-how-to-show-text-above-image-on-hover/ -->
+<div class="form-row">
+  <div class="col" style="text-align: right;">
+    <div *ngIf="course?.images;else noImagesTmpl">
+      <div *ngFor="let image of screenshots; let i=index">
+        <img src="{{ image.thumb }}" width="320" class="rounded" style="margin-bottom: 10px; cursor: pointer;" title="click to enlarge" (click)="open(i)">
+      </div>
     </div>
+    <ng-template #noImagesTmpl>
+      <img src="assets/images/no-images.png" alt="no course images" width="50" style="margin-bottom: 20px;">
+    </ng-template>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col">
-      <p><i>{{ course.description }} </i></p></div>
-  </div>
 
-  <!-- standard info -->
-  <div class="row">
-    <div class="col-sm-3"><h6>Designed by</h6></div>
-    <div class="col-sm-3"><p class="user">{{ course.metaInfo.createdName }}</p></div>
-    <div class="col-sm-3 forza-share">Sharing Code</div>
-    <div class="col-sm-3"><p class="forza-share text-right">{{ course.sharingCode | forzashare}}</p></div>
-  </div>
+<!-- social -->
+<div class="form-row"><span class="col border-bottom border-primary"></span></div>
+<p class="font-weight-light">What Drivers say</p>
 
-  <div class="row">
-    <div class="col-sm-3"></div>
-    <div class="col-sm-3"></div>
-    <div class="col-sm-3"></div>
-    <div class="col-sm-3"><!-- <p class="text-right"><ew-rating [rating]=course.ratingInfo.rating [showImmediately]=false></ew-rating></p>--></div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-3">
-      <ew-rating
+<div class="form-row" style="margin-bottom: 20px;">
+  <div *ngIf="course" class="col-sm-3">
+    <ew-rating
       [rating]=course.ratingInfo.rating
       [upVotes]=course.ratingInfo.upVotes
       [downVotes]=course.ratingInfo.downVotes
@@ -75,123 +142,56 @@
       [canVote]=true
       (voteEvent)=castVote($event)>
     </ew-rating>
-    </div>
-    <div class="col-sm-3"></div>
-    <div class="col-sm-3"><h6>Difficulty</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.difficultyText }}</p></div>
   </div>
+  <div class="col-sm-3"></div>
+  <div class="col-sm-3"></div>
+  <div class="col-sm-3"></div>
+</div>
 
-  <!-- conditions -->
-  <div class="row">
-    <div class="col-sm-6"><img src="assets/icons/weather.png" alt="weather" class="thumbnail float-right"></div> <!-- auch 50x50 machen -->
-    <div class="col-sm-3"><h6>Season</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.seasonText }}</p></div>
+<div *ngIf="course" class="form-row">
+  <div class="col">
+    <ew-comment
+      [readOnly]="authenticationService.currentUserValue.roleCode==ROLE.Guest"
+      [ownerType]=DAO.course
+      [ownerId]=course?.metaInfo.id>
+    </ew-comment>
   </div>
-  <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-3"><h6>Weather Conditions</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.weatherText }}</p></div>
-  </div>
+</div>
 
-  <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-3"><h6>Time of Day</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.daytimeText }}</p></div>
-  </div>
+<div class="form-row" style="margin-top: 20px;"><span class="col border-bottom border-primary"></span></div>
+<p class="font-weight-light">My Stuff</p>
 
-  <!-- additional -->
-  <div class="row">
-    <div class="col"><p *ngIf="course.standardLaps>0" class="text-right">{{ course.standardLaps }} Laps suggested</div>
-
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6"><img src="https://placehold.it/50x50" alt="timing" class="thumbnail float-right"></div>
-    <div class="col-sm-3"><h6>Expected Lap Time</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.defaultLapTimeSec | sectime }}</p></div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-3"><h6>Time Progression</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.timeProgressionText }}</p></div>
-  </div>
-
-  <div class="row">
-    <div class="col-sm-6"></div>
-    <div class="col-sm-3"><h6>Distance (KM)</h6></div>
-    <div class="col-sm-3"><p class="text-right">{{ course.distanceKM }}</p></div>
-  </div>
-
-  <!-- screenshots -->
-  <!-- carousel nicht in row, sonst stimmt die Grösse nicht -->
-  <ngb-carousel *ngIf="course.images; else noImagesTmpl">
-    <ng-template ngbSlide *ngFor="let image of course.images">
-      <div class="picsum-img-wrapper">
-        <img [src]="image.imageURL" alt="course image" width="800" height="600">
-      </div>
-      <div class="carousel-caption">
-        <p>{{ image.description }}</p>
-      </div>
-    </ng-template>
-  </ngb-carousel>
-
-  <ng-template #noImagesTmpl>
-    <div class="row section">
-      <div class="col text-center">
-        <!-- bootstrap center classes -->
-        <img src="assets/images/no-images.png" alt="no course images" width="300" height="200">
-      </div>
-    </div>
-  </ng-template>
-
-  <div class="row" style="padding-top: 20px;">
-    <div class="col text-center">
-      <button
-        type="button"
-        [routerLink]="['/images/manage', 'rat' + courseId]"
-        class="btn btn-light btn-additional"
-        [disabled]="!authenticationService.canModify(course.metaInfo.createdId)">
-        Manage Screenshots
-      </button>
-  </div>
-  </div>
-
-  <!-- commenents (component)
-  <div class="row comments-section">
-    <div class="col-md-12">
-      <h4>Comments</h4>
-    </div>
-  </div>
-  -->
-
-  <hr>
-
-  <div class="row buttons-section">
-    <hr> <!-- moves buttons to the right -->
-    <!-- <a class="btn btn-primary" routerLink="/course/add">New</a> -->
-
+<div class="form-row buttons-section">
+  <div class="col-sm-3">
     <!-- change button is always shown as a teaser :P -->
     <button
       type="button"
       [routerLink]="['/course/edit', courseId]"
-      class="btn btn-primary btn-additional"
-      [disabled]="!authenticationService.canModify(course.metaInfo.createdId)">
+      class="btn btn-primary btn-additional btn-block"
+      [disabled]="!authenticationService.canModify(course?.metaInfo.createdId)">
       Change
     </button>
+  </div>
+</div>
+
+<div class="form-row buttons-section">
+  <div class="col-sm-3" >
+    <button
+      type="button"
+      [routerLink]="['/images/manage', 'rat' + courseId]"
+      class="btn btn-primary btn-additional btn-block"
+      [disabled]="!authenticationService.canModify(course?.metaInfo.createdId)">
+      Manage Screenshots
+    </button>
+  </div>
+</div>
 
     <!-- ToDo: Check for CMPs & delete related Objects (API)
     <button
-      *ngIf="authenticationService.canModify(course.metaInfo.createdId)"
-      type="button"
-      class="btn btn-warning btn-additional"
-      (click)=deleteCourse(courseId)>
-      Delete
+    *ngIf="authenticationService.canModify(course?.metaInfo.createdId)"
+    type="button"
+    class="btn btn-warning btn-additional"
+    (click)=deleteCourse(courseId)>
+    Delete
     </button>
     -->
-  </div>
-</ng-container>
-
-<ng-template #loading>
-  <div class="spinner-border"></div>
-</ng-template>

@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { DateValueAccessorModule } from 'angular-date-value-accessor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TagInputModule } from 'ngx-chips';
+import { LightboxModule } from 'ngx-lightbox';
 
 // custom/app
 import { AppRoutingModule } from './app-routing.module';
@@ -49,6 +50,8 @@ import { CourseWizardRestrictionsComponent } from './course-wizard-restrictions/
 import { CourseWizardConditionsComponent } from './course-wizard-conditions/course-wizard-conditions.component';
 import { CourseWizardAdditionalComponent } from './course-wizard-additional/course-wizard-additional.component';
 import { SectimePipe } from './_shared/sectime.pipe';
+import { CommentComponent } from './comment/comment.component';
+import { CreateCommentComponent } from './create-comment/create-comment.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,9 @@ import { SectimePipe } from './_shared/sectime.pipe';
     CourseWizardRestrictionsComponent,
     CourseWizardConditionsComponent,
     CourseWizardAdditionalComponent,
-    SectimePipe
+    SectimePipe,
+    CommentComponent,
+    CreateCommentComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +100,8 @@ import { SectimePipe } from './_shared/sectime.pipe';
     HttpClientModule,
     NgbModule,
     TagInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    LightboxModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationErrorInterceptor, multi: true },

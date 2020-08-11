@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 import { CourseWizardService } from '../_services/course-wizard.service';
 import { Additional } from '../_models/course-wizard';
@@ -66,10 +67,15 @@ export class CourseWizardAdditionalComponent implements OnInit {
     this.data.distanceKM = this.frm.distanceKM.value;
 
     // finish: save item
-    this.courseWizardService.finish();
+    this.courseWizardService.finish().pipe(
+      take(1)
+      ).subscribe((courseId) => {
+        this.router.navigate(['courses', courseId.id]);
+        this.courseWizardService.reset(); // clear form AFTER it's saved :-)
+      });
 
     // Zwischenlösung: ToDo: Auf neue Strecke navigieren
-    this.router.navigate(['/home']);
+    // this.router.navigate(['/home']);
   }
 
 }

@@ -1,8 +1,8 @@
 <ng-container *ngIf="images$ | async as images; else noImages">
 
-  <div *ngFor="let img of images" class="row">
+  <div *ngFor="let img of images" class="row" style="margin-top: 20px;">
     <div class="col-sm-6" >
-      <img src="{{img.imageURL}}" witdt="300" height="200">
+      <img src="{{img.imageURL}}" width="320" height="200" class="rounded">
     </div>
 
     <div class="col-sm-6">
@@ -15,7 +15,7 @@
         (click)="OnRemove(img.id)"
         class="btn btn-light">
         Remove
-    </button>
+      </button>
 
     </div>
   </div>
@@ -23,7 +23,7 @@
   <hr>
   <!-- uploading component -->
   <div *ngIf="images.length<5; else imgListFull" class="row">
-    <div class="col-sm-12">
+    <div class="col">
       <ew-upload
         [objectType]="objectType"
         [objectId]="objectId"
@@ -41,8 +41,8 @@
 </ng-container>
 
 <ng-template #noImages>
-  <div class="row">
-    <div class="col-sm-6">
+  <div class="row" style="margin-top: 20px;">
+    <div class="col">
       <ew-upload
         [objectType]="objectType"
         [objectId]="objectId"
@@ -51,3 +51,14 @@
     </div>
   </div>
 </ng-template>
+
+<hr>
+
+<button
+  id="btnBack"
+  type="button"
+  style="margin-bottom: 20px;"
+  (click)="goBack()"
+  class="btn btn-primary">
+  &lt; back
+</button>

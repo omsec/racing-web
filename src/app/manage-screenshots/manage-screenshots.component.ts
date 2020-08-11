@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -46,17 +46,25 @@ export class ManageScreenshotsComponent implements OnInit {
   // https://stackoverflow.com/questions/47813927/how-to-refresh-a-component-in-angular
   // Refresh this page whenever a file was added or removed
   OnChange() {
-    // geht auf dem server leider nicht, der scheint anders konfiguriert
+    // geht nicht (keine aktion ausgeführt)
     // location.reload();
 
-    // hier wird onInit nicht mehr gerufen; eigene Proc? Mehrere Subs??
-    /*
+    const url = '/images/manage';
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/images/manage', this.objectId]);
-    });*/
+      this.router.navigate([url, this.objectRef]);
+    });
+  }
 
-    // deshalb wird halt zurück zur Detail Page des Objekts navigiert
+  // remove selected image and reload page
+  OnRemove(fileId: number) {
+    if (confirm('Delete picture?')) {
+      this.uploadService.remove(fileId).subscribe(res => this.OnChange());
+    }
+  }
+
+  goBack() {
     let url = '';
+
     switch (this.objectType.toUpperCase()) {
       case RessourceType.course:
         url = '/courses';
@@ -67,13 +75,6 @@ export class ManageScreenshotsComponent implements OnInit {
     }
 
     this.router.navigate([url, this.objectId]);
-  }
-
-  // remove selected image and reload page
-  OnRemove(fileId: number) {
-    if (confirm('Delete picture?')) {
-      this.uploadService.remove(fileId).subscribe(res => this.OnChange());
-    }
   }
 
 }

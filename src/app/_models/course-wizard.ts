@@ -9,6 +9,7 @@ export interface Basics {
   gameCode: Game;
   name: string;
   sharingCode: number;
+  description: string;
 }
 
 export interface Blueprint {

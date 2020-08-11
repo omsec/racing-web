@@ -1,0 +1,69 @@
+<ng-container *ngIf="comments$ | async as cmts; else loading">
+
+  <div *ngIf="readOnly!=true">
+    <ew-create-comment
+      [ownerType]="ownerType"
+      [ownerId]="ownerType"
+      [parentId]="0"
+      (commentAdded)="onCommentAdded()">
+    </ew-create-comment>
+  </div>
+
+  <hr *ngIf="cmts.length>0">
+
+  <div *ngFor="let cmt of cmts; last as isLast" style="margin-top: 10px;">
+    <div class="media" style="margin-bottom: 10px;">
+      <img src="{{cmt.createdPic}}" width="50" height="50" class="mr-3 rounded" alt="commentator">
+      <div class="media-body">
+        <h6 class="mt-0">{{ cmt.createdName}}</h6>
+        {{ cmt.commentText }}
+
+        <!-- editor zum antworten -->
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm"
+          (click)="toggleEditor(cmt.id)">
+          reply
+        </button>
+        <ew-create-comment
+          *ngIf="reply&&(replyId==cmt.id)"
+          [ownerType]="ownerType"
+          [ownerId]="ownerId"
+          [parentId]="cmt.id"
+          (commentAdded)="onCommentAdded()">
+        </ew-create-comment>
+
+        <!-- rating vom kommentar -->
+        <!-- ToDo: auftrennen von Rating/Voting
+        <ew-rating
+          style="margin-top: 10px;"
+          [upVotes]=cmt.upVotes
+          [downVotes]=cmt.downVotes
+          [userVote]=cmt.userVote
+          [showImmediately]=false
+          [canVote]=true
+          (voteEvent)=castVote($event)>
+        </ew-rating>
+        -->
+
+        <div *ngFor="let answer of cmt.answers">
+          <div class="media mt-3">
+            <img src="{{answer.createdPic}}" width="30" height="30" class="mr-3 rounded" alt="commentator">
+            <div class="media-body">
+              <h6 class="mt-0">{{ answer.createdName }}</h6>
+              {{ answer.commentText }}
+            </div>
+          </div>
+        </div>
+
+        <hr *ngIf="!isLast">
+
+      </div>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #loading>
+  <div class="spinner-border"></div>
+</ng-template>

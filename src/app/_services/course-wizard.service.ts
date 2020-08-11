@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
 
 import { Basics, Blueprint, Restrictions, Conditions, Additional } from '../_models/course-wizard';
 import * as CodeTypes from '../_models/domain-codes';
@@ -29,7 +30,8 @@ export class CourseWizardService {
     this.basics = {
       gameCode: CodeTypes.Game.FH4,
       name: '',
-      sharingCode: 0
+      sharingCode: 0,
+      description: ''
     };
 
     this.blueprint = {
@@ -96,16 +98,14 @@ export class CourseWizardService {
     newCourse.sharingCode = this.basics.sharingCode;
     newCourse.difficultyCode = this.blueprint.difficultyCode;
     newCourse.seriesCode = this.blueprint.seriesCode;
+    newCourse.description = this.basics.description;
 
     // additional
     newCourse.terrain = this.blueprint.terrain;
 
-    // ToDO: notify caller about new ID
-    this.courseService.addCourse(newCourse).subscribe(courseId => {
-      newCourse.metaInfo.id = courseId;
-      this.reset();
-    });
-
+    return this.courseService.addCourse(newCourse).pipe(
+      tap(courseId => { } )
+    );
   }
 
 }
