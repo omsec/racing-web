@@ -3,7 +3,7 @@
   <div *ngIf="readOnly!=true">
     <ew-create-comment
       [ownerType]="ownerType"
-      [ownerId]="ownerType"
+      [ownerId]="ownerId"
       [parentId]="0"
       (commentAdded)="onCommentAdded()">
     </ew-create-comment>
