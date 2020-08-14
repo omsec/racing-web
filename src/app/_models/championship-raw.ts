@@ -1,6 +1,5 @@
 import { MetaInfoRaw } from './meta-info-raw';
 import { RaceRaw } from './race-raw';
-import { RatingInfoRaw } from './rating-info-raw';
 
 export interface ChampionshipRaw {
   metaInfo: MetaInfoRaw;
@@ -9,7 +8,7 @@ export interface ChampionshipRaw {
   blueprintName: string;
   description?: string;
   races?: RaceRaw[];
-  ratingInfo?: RatingInfoRaw;
+  rating: string;
 }
 
 // search-struktur (browse)

@@ -15,6 +15,7 @@ export class CreateCommentComponent implements OnInit {
   @Input() ownerType: DataObjectType;
   @Input() ownerId: number;
   @Input() parentId: number;
+  @Input() small: false;
   @Output() commentAdded = new EventEmitter();
   // output event für reload vom parent? (innerhalb obs, wie upload)
   form: FormGroup;

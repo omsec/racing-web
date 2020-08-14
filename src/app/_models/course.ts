@@ -1,5 +1,4 @@
 import { MetaInfo } from './meta-info';
-import { RatingInfo } from './rating-info';
 import { Game, TrackType, Series, TrackDifficulty, Season, CarTheme, DayTime, Weather, TimeProgression, CarClass } from './domain-codes';
 import { Image } from './image';
 import { CodeDefinition } from './domain-codes';
@@ -47,7 +46,8 @@ export interface Course {
   description?: string;
   // additional
   terrain?: CodeDefinition[]; // generic
-  ratingInfo?: RatingInfo;
+  // ratingInfo?: RatingInfo;
+  rating: number;
   images?: Image[];
 }
 
@@ -57,6 +57,10 @@ export interface CourseNameSearch {
   typeCode: number;
   seriesCode: number;
   trackName: string;
+  carClassCode: number;
+  carThemeCode: number;
+  carId?: number;
+  carName?: string;
 }
 
 // search-struktur (browse)

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { ChampionshipBrowse } from '../_models/championship';
-import { Series } from '../_models/domain-codes';
+import { Series, CarClass } from '../_models/domain-codes';
 
 @Component({
   selector: 'ew-browse-championship',
@@ -13,6 +13,7 @@ export class BrowseChampionshipComponent implements OnInit {
 
   // CodeType enums
   SERIES = Series;
+  CARCLASS = CarClass;
 
   constructor() { }
 

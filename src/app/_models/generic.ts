@@ -33,6 +33,7 @@ export class GenericFactory {
       case DataObjectType.championship: url += 'championships'; break;
       case DataObjectType.user: url += 'users'; break;
     }
+    url += '/' + ownerId;
 
     return url;
   }

@@ -2,7 +2,6 @@ import { ChampionshipRaw, ChampionshipBrowseRaw } from './championship-raw';
 import { Championship, ChampionshipBrowse } from './championship';
 import { MetaInfoFactory } from './meta-info-factory';
 import { RaceFactory } from './race-factory';
-import { RatingFactory } from './rating-factory';
 import { Game } from './domain-codes';
 
 export class ChampionshipFactory {
@@ -12,7 +11,7 @@ export class ChampionshipFactory {
       ...championshipRaw,
       metaInfo: MetaInfoFactory.fromRaw(championshipRaw.metaInfo),
       races: RaceFactory.fromRaw(championshipRaw.races),
-      ratingInfo: RatingFactory.fromRaw(championshipRaw.ratingInfo)
+      rating: +championshipRaw.rating
     };
   }
 
@@ -35,7 +34,7 @@ export class ChampionshipFactory {
       blueprintName: '',
       description: null,
       races: [], // leave empty - added by form
-      ratingInfo: RatingFactory.empty()
+      rating: 0
     };
   }
 

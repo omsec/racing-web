@@ -3,40 +3,41 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, map, catchError } from 'rxjs/operators';
 
+import { AuthenticationService } from '../_services/authentication.service';
 import { environment } from '../../environments/environment';
-import { VoteRaw } from '../_models/vote-raw';
-import { Vote, VoteAction } from '../_models/vote';
+import { DataObjectType } from '../_models/generic';
+import { Voting } from '../_models/voting';
+import { VoteAction } from '../_models/vote';
 import { VoteFactory } from '../_models/vote-factory';
-import { AuthenticationService } from './authentication.service';
+import { VotingRaw } from '../_models/voting-raw';
+import { VotingFactory } from '../_models/voting-factory';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class RatingService {
+export class VotingService {
 
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService
   ) { }
 
-  // wird nicht mehr gebraucht - verschoben in die Hauptobjekte (Championship & Course)
-  /*
-  getSingle(objectType: string, objectId: number): Observable<RatingInfo> {
-    return this.http.post<RatingInfoRaw>(
-      `${environment.apiUrl}/getRating`, { itemType: objectType, itemId: objectId})
+  getSingle(ownerType: DataObjectType, ownerId: number): Observable<Voting> {
+    return this.http.post<VotingRaw>(
+      `${environment.apiUrl}/getVoting`, { objectType: ownerType, objectId: ownerId} )
       .pipe(
-        // retry(3),
-        map(ratingRaw => RatingFactory.fromRaw(ratingRaw)),
+        retry(3),
+        map(votingRaw => VotingFactory.fromRaw(votingRaw)),
         catchError(this.errorHandler)
       );
   }
-*/
 
-  castVote(objectType: string, objectId: number, vote: VoteAction): Observable<any> {
+  registerVote(ownerType: DataObjectType, ownerId: number, vote: VoteAction): Observable<any> {
 
     const voteData = VoteFactory.empty();
-    voteData.itemType = objectType;
-    voteData.itemId = objectId;
+    voteData.itemType = ownerType;
+    voteData.itemId = ownerId;
     voteData.userId = this.authenticationService.currentUserValue.userId;
     voteData.vote = vote;
 
@@ -50,7 +51,7 @@ export class RatingService {
   // Für lokale Fehrlebehandlung (interceptors sind global)
   // ToDo: Console entfernen
   private errorHandler(error: HttpErrorResponse): Observable<any> {
-    console.error('Fehler aufgetreten!');
+    // console.error('Fehler aufgetreten!');
     return throwError(error); // Fehler weitergeben
   }
 

@@ -9,6 +9,10 @@
     </ew-create-comment>
   </div>
 
+  <div *ngIf="readOnly==true" class="alert alert-secondary" role="alert">
+    Become a Member to comment and share your Content
+  </div>
+
   <hr *ngIf="cmts.length>0">
 
   <div *ngFor="let cmt of cmts; last as isLast" style="margin-top: 10px;">
@@ -20,8 +24,10 @@
 
         <!-- editor zum antworten -->
         <button
+          *ngIf="readOnly!=true"
           type="submit"
           class="btn btn-primary btn-sm"
+          style="margin-bottom: 10px;"
           (click)="toggleEditor(cmt.id)">
           reply
         </button>
@@ -30,10 +36,16 @@
           [ownerType]="ownerType"
           [ownerId]="ownerId"
           [parentId]="cmt.id"
+          [small]="true"
           (commentAdded)="onCommentAdded()">
         </ew-create-comment>
 
-        <!-- rating vom kommentar -->
+        <!-- voting für kommentar -->
+        <ew-voting
+          [ownerType]="DAO.comment"
+          [ownerId]="cmt.id">
+        </ew-voting>
+
         <!-- ToDo: auftrennen von Rating/Voting
         <ew-rating
           style="margin-top: 10px;"
@@ -52,6 +64,11 @@
             <div class="media-body">
               <h6 class="mt-0">{{ answer.createdName }}</h6>
               {{ answer.commentText }}
+              <!-- voting für antwort -->
+              <ew-voting
+              [ownerType]="DAO.comment"
+              [ownerId]="answer.id">
+            </ew-voting>
             </div>
           </div>
         </div>

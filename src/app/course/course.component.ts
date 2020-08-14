@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, ResolveStart } from '@angular/router';
 
 import { Course } from '../_models/course';
 import { CourseService } from '../_services/course.service';
-import { RatingService } from '../_services/rating.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { Game, TrackType, Series, CarClass, Terrain, Season, Weather, Role } from '../_models/domain-codes';
 import { Lightbox } from 'ngx-lightbox';
@@ -39,7 +38,6 @@ export class CourseComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private courseService: CourseService,
-    private ratingService: RatingService,
     private lightBox: Lightbox,
     public authenticationService: AuthenticationService) { }
 
@@ -76,11 +74,6 @@ export class CourseComponent implements OnInit {
       }
     });
 
-  }
-
-  castVote(vote: number) {
-    // console.log(vote);
-    this.ratingService.castVote('RAT', this.courseId, vote).subscribe(() => { });
   }
 
   deleteCourse(courseId: number) {

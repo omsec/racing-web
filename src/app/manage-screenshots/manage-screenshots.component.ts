@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Image } from '../_models/image';
 import { UploadService } from '../_services/upload.service';
-import { RessourceType } from '../_models/ressource-type';
+import { GenericFactory } from '../_models/generic';
 
 @Component({
   selector: 'ew-manage-screenshots',
@@ -63,18 +63,8 @@ export class ManageScreenshotsComponent implements OnInit {
   }
 
   goBack() {
-    let url = '';
-
-    switch (this.objectType.toUpperCase()) {
-      case RessourceType.course:
-        url = '/courses';
-        break;
-      case RessourceType.championship:
-        url = '/championships';
-        break;
-    }
-
-    this.router.navigate([url, this.objectId]);
+    const url = GenericFactory.getUrl(GenericFactory.fromRaw(this.objectType), this.objectId);
+    this.router.navigate([url]);
   }
 
 }

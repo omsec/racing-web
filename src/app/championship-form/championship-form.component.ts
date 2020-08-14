@@ -134,7 +134,7 @@ export class ChampionshipFormComponent implements OnInit {
   // Controls für die Rennen
   private raceControls(): any {
     return {
-      seriesCode: [null, Validators.required],
+      seriesCode: [{value: null, disabled: true}, Validators.required],
       courseInfo: [null as CourseNameSearch, Validators.required],
       carClassCode: [CodeTypes.CarClass.allclasses, Validators.required],
       carThemeCode: [CodeTypes.CarTheme.anythinggoes, Validators.required],
@@ -165,10 +165,49 @@ export class ChampionshipFormComponent implements OnInit {
   }
 
   OnCourseSelected(evt: NgbTypeaheadSelectItemEvent) {
+    // type: CourseNameSearch (Course Model)
+
     // console.log(evt.item);
     // console.log(this.races.controls[0].controls.seriesCode.value);
     // this.races.controls[this.races.length - 1].controls.seriesCode.setValue(evt.item.seriesCode); // works but gives error
     this.races.at(this.races.length - 1).get('seriesCode').setValue(evt.item.seriesCode);
+    // tslint:disable-next-line
+    if (evt.item.typeCode == CodeTypes.TrackType.community) {
+      // console.log(evt.item);
+      // bei blueprints können die restrictions vorgegeben sein
+      if (evt.item.carClassCode != CodeTypes.CarClass.allclasses) { // tslint:disable-line
+        this.races.at(this.races.length - 1).get('carClassCode').setValue(evt.item.carClassCode);
+        this.races.at(this.races.length - 1).get('carClassCode').disable();
+      } else {
+        this.races.at(this.races.length - 1).get('carClassCode').enable();
+      }
+
+      if (evt.item.carThemeCode != CodeTypes.CarTheme.anythinggoes) { // tslint:disable-line
+        this.races.at(this.races.length - 1).get('carThemeCode').setValue(evt.item.carThemeCode);
+        this.races.at(this.races.length - 1).get('carThemeCode').disable();
+      } else {
+        this.races.at(this.races.length - 1).get('carThemeCode').enable();
+      }
+
+      if (evt.item.carId) { // tslint:disable-line
+        this.races.at(this.races.length - 1).get('carInfo').setValue({
+          carId: evt.item.carId,
+          carName: evt.item.carName
+        });
+        this.races.at(this.races.length - 1).get('carInfo').disable();
+        // wenn car gesetzt, auch theme disablen
+        this.races.at(this.races.length - 1).get('carThemeCode').disable();
+
+      } else {
+        this.races.at(this.races.length - 1).get('carInfo').enable();
+      }
+
+    } else {
+      // Standard-Strecke
+      this.races.at(this.races.length - 1).get('carClassCode').enable();
+      this.races.at(this.races.length - 1).get('carThemeCode').enable();
+      this.races.at(this.races.length - 1).get('carInfo').enable();
+    }
   }
 
   onSubmit(races: number) {
@@ -195,11 +234,12 @@ export class ChampionshipFormComponent implements OnInit {
     // console.log(this.championshipFrm.races.value[0].seriesCode);
 
     let i = 1;
-    for (const ctrl of this.championshipFrm.races.value) {
+    for (const ctrl of this.races.getRawValue()) {
       // console.log(ctrl.seriesCode);
       newRaces.push(
         RaceFactory.empty()
       );
+
       newRaces[newRaces.length - 1].metaInfo.createdId = newChampionship.metaInfo.createdId;
       newRaces[newRaces.length - 1].raceNo = i;
       newRaces[newRaces.length - 1].trackId = ctrl.courseInfo.trackId;
@@ -209,8 +249,11 @@ export class ChampionshipFormComponent implements OnInit {
       if (ctrl.carInfo) { newRaces[newRaces.length - 1].carId = ctrl.carInfo.carId; }
       newRaces[newRaces.length - 1].carClassCode = ctrl.carClassCode;
       i++;
-    }
 
+      // ToDo: sonstige, nicht abgefrage Infos (z. B. Wetter & Zeit) aus der courseInfo übernehmen
+      // dazu sollter die Struktur CourseNameSearch evtl. aufgegeben und durch das "normale" Course Objekt ersetzt
+      // (oder sehr stark erweitert um diese Codes)
+    }
     // Hilfsobjekt bauen, mit dessen Daten nachher die API-Services aufgerufen werden können
     const eventData = { championship: newChampionship, races: newRaces};
     this.submitChampionship.emit(eventData);

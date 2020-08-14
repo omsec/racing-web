@@ -1,6 +1,5 @@
 import { MetaInfo } from './meta-info';
 import { Race } from './race';
-import { RatingInfo } from './rating-info';
 
 export interface Championship {
   metaInfo: MetaInfo;
@@ -9,7 +8,7 @@ export interface Championship {
   blueprintName: string;
   description?: string;
   races?: Race[];
-  ratingInfo?: RatingInfo;
+  rating: number;
 }
 
 // search-struktur (browse)

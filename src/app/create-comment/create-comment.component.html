@@ -13,11 +13,11 @@
     </div>
   </div>
 
-  <div class="form-row" style="margin-top: 10px;">
+  <div class="form-row" style="margin-top: 10px; margin-bottom: 10px;">
     <div class="col">
       <button
         type="submit"
-        class="btn btn-primary"
+        [ngClass]="{'btn': true, 'btn-primary': true, 'btn-sm': small}"
         [disabled]="!frm.comment.value">
         send
       </button>

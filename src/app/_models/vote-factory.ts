@@ -1,10 +1,12 @@
 import { VoteRaw } from '../_models/vote-raw';
 import { Vote, VoteAction } from '../_models/vote';
+import { GenericFactory } from './generic';
 
 export class VoteFactory {
   static fromRaw(voteRaw: VoteRaw): Vote {
     return {
-      ...voteRaw
+      ...voteRaw,
+      itemType: GenericFactory.fromRaw(voteRaw.itemType)
     };
   }
 

@@ -95,7 +95,6 @@ export class CourseWizardRestrictionsComponent implements OnInit {
     this.data.carThemeCode = this.frm.carThemeCode.value;
     this.data.car = this.frm.carInfo?.value; // || null;
 
-    // proceed to next step
     this.router.navigate(['/course/add/conditions']);
   }
 

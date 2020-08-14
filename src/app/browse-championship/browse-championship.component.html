@@ -26,7 +26,17 @@
       <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
       <!-- <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded"> -->
     </div>
-    <div class="col"><img src="https://placehold.it/50x50" alt="{{cmp.carClassText}}"></div>
+    <div class="col">
+      <img *ngIf="cmp.countCarClass>1" src="assets/icons/carclass/cc_open.png" alt="Car Class" title="multiple car classes" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.A800" src="assets/icons/carclass/cc_a.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.B700" src="assets/icons/carclass/cc_b.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.C600" src="assets/icons/carclass/cc_c.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.D500" src="assets/icons/carclass/cc_d.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.S1900" src="assets/icons/carclass/cc_s1.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.S2998" src="assets/icons/carclass/cc_s2.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.X999" src="assets/icons/carclass/cc_x.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+      <img *ngIf="cmp.countCarClass==1 && cmp.carClassCode==CARCLASS.allclasses" src="assets/icons/carclass/cc_open.png" alt="Car Class" title="{{cmp.carClassText}}" class="rounded">
+    </div>
     <div class="col" style="color: darkgray">
       <p *ngIf="cmp.countCar>0" style="text-align:right">{{ cmp.carName }}</p>
       <p *ngIf="cmp.countCarTheme>0" style="text-align:right">{{ cmp.carThemeText }}</p>

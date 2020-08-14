@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError } from 'rxjs/operators';
 
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import { CourseWizardService } from '../_services/course-wizard.service';
 import { Blueprint } from '../_models/course-wizard';
 import * as CodeTypes from '../_models/domain-codes';
@@ -89,6 +90,14 @@ export class CourseWizardBlueprintComponent implements OnInit, OnChanges {
 
   // Form Controls Accessor
   get frm() { return this.form.controls; }
+
+  OnCourseSelected(evt: NgbTypeaheadSelectItemEvent) {
+    // console.log(evt.item);
+    // console.log(this.races.controls[0].controls.seriesCode.value);
+    // this.races.controls[this.races.length - 1].controls.seriesCode.setValue(evt.item.seriesCode); // works but gives error
+    // this.form.get('seriesCode').setValue(evt.item.seriesCode);
+    this.frm.seriesCode.setValue(evt.item.seriesCode);
+  }
 
   onSubmit() {
     this.submitted = true;

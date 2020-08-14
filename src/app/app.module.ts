@@ -52,6 +52,7 @@ import { CourseWizardAdditionalComponent } from './course-wizard-additional/cour
 import { SectimePipe } from './_shared/sectime.pipe';
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
+import { VotingComponent } from './voting/voting.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { CreateCommentComponent } from './create-comment/create-comment.componen
     CourseWizardAdditionalComponent,
     SectimePipe,
     CommentComponent,
-    CreateCommentComponent
+    CreateCommentComponent,
+    VotingComponent
   ],
   imports: [
     BrowserModule,

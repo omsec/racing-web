@@ -5,7 +5,6 @@ import { DataObjectType, GenericFactory } from '../_models/generic';
 import { Observable } from 'rxjs';
 import { UserComment } from '../_models/comment';
 import { CommentService } from '../_services/comment.service';
-import { RatingService } from '../_services/rating.service';
 
 @Component({
   selector: 'ew-comment',
@@ -24,9 +23,10 @@ export class CommentComponent implements OnInit {
   reply = false;
   replyId = 0;
 
+  DAO = DataObjectType;
+
   constructor(
-    private commentService: CommentService,
-    private ratingService: RatingService) { }
+    private commentService: CommentService) { }
 
   ngOnInit(): void {
     this.comments$ = this.commentService.getAll(this.ownerType, this.ownerId);
@@ -45,13 +45,6 @@ export class CommentComponent implements OnInit {
   onCommentAdded(): void {
     // reload component (noch nicht ganz elegant, kurzer Sprung nach oben)
    window.location.reload();
-  }
-
-  castVote(vote: number) {
-    console.log(vote);
-    // ToDO: his.type (change casTvote)
-    // ToDo: this.id ersetzen mit "cmt Id"
-    this.ratingService.castVote('CMT', this.replyId, vote).subscribe(() => { });
   }
 
 }

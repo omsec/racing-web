@@ -1,0 +1,7 @@
+div {
+  width: 100px;
+}
+
+.counter {
+  text-align: right; /* sogar schöner als center */
+}

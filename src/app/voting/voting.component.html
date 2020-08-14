@@ -1,0 +1,20 @@
+<div class="row">
+  <!-- show correct icon & take correct action based on user's voting state -->
+  <div [ngSwitch]=currentVote class="col">
+    <img *ngSwitchCase="VOTE_ACTION.positive" src="assets/icons/rating/up-green.png" height="30" alt="revoke vote" (click)="castVote(VOTE_ACTION.notVoted)">
+    <img *ngSwitchDefault src="assets/icons/rating/up-gray.png" height="30" alt="up vote" (click)="castVote(VOTE_ACTION.positive)">
+  </div>
+  <div [ngSwitch]=currentVote class="col">
+    <img *ngSwitchCase="VOTE_ACTION.negative" src="assets/icons/rating/down-red.png" height="30" alt="revoke vote" (click)="castVote(VOTE_ACTION.notVoted)">
+    <img *ngSwitchDefault src="assets/icons/rating/down-gray.png" height="30" alt="down vote" (click)="castVote(VOTE_ACTION.negative)">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col counter">
+    {{ voting?.upVotes }}
+  </div>
+  <div class="col counter">
+    {{ voting?.downVotes }}
+  </div>
+</div>

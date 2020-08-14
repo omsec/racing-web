@@ -1,5 +1,7 @@
+import { DataObjectType } from './generic';
+
 export interface Vote {
-  itemType: string;
+  itemType: DataObjectType;
   itemId: number;
   userId: number;
   vote: number;

@@ -1,5 +1,4 @@
 import { MetaInfoRaw } from './meta-info-raw';
-import { RatingInfoRaw } from './rating-info-raw';
 import { ImageRaw } from './image-raw';
 import { CodeDefinition } from './domain-codes';
 
@@ -46,7 +45,8 @@ export interface CourseRaw {
   description?: string;
   // additional
   terrain?: CodeDefinition[];
-  ratingInfo?: RatingInfoRaw;
+  // ratingInfo?: RatingInfoRaw;
+  rating: string;
   images?: ImageRaw[];
 }
 
@@ -56,6 +56,10 @@ export interface CourseNameSearchRaw {
   typeCode: number;
   seriesCode: number;
   trackName: string;
+  carClassCode: number;
+  carThemeCode: number;
+  carId?: number;
+  carName?: string;
 }
 
 // search-struktur (browse)

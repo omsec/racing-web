@@ -60,19 +60,6 @@
       <p><i><u>Event #{{ i+1 }}</u></i></p>
 
       <div class="form-row">
-        <div class="form-group col-md4">
-          <label for="selSeries">Series</label>
-          <select id="selSeries" class='form-control' formControlName="seriesCode" [ngClass]="{ 'is-invalid': submitted && ctrl.get('seriesCode').errors }">
-            <option *ngFor="let serie of Series" value="{{serie.code}}">{{ serie.text }}</option>
-          </select>
-          <!-- error block -->
-          <div *ngIf="submitted && ctrl.get('seriesCode').errors" class="invalid-feedback">
-            <div *ngIf="ctrl.get('seriesCode').errors.required">Series is required</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-row">
         <div class="form-group col">
           <label for="iptCourse">Course</label>
           <input id="iptCourse" type="text" class="form-control"
@@ -88,6 +75,16 @@
             <div *ngIf="submitted && ctrl.get('courseInfo').errors" class="invalid-feedback">
               <div *ngIf="ctrl.get('courseInfo').errors.required">Course is required</div>
             </div>
+        </div>
+        <div class="form-group col-md4">
+          <label for="selSeries">Series</label>
+          <select id="selSeries" class='form-control' formControlName="seriesCode" [ngClass]="{ 'is-invalid': submitted && ctrl.get('seriesCode').errors }">
+            <option *ngFor="let serie of Series" value="{{serie.code}}">{{ serie.text }}</option>
+          </select>
+          <!-- error block -->
+          <div *ngIf="submitted && ctrl.get('seriesCode').errors" class="invalid-feedback">
+            <div *ngIf="ctrl.get('seriesCode').errors.required">Series is required</div>
+          </div>
         </div>
       </div>
 
@@ -127,20 +124,23 @@
     </div>
   </div>
 
-  <div class="row">
-    <button
-      type="button"
-      class="btn btn-light"
-      (click)="addRaceControls(races.controls.length)">
-      + Race
-    </button>
+  <div class="form-row">
+    <div class="form-group col">
+      <button
+        type="button"
+        class="btn btn-light btn-sm"
+        (click)="addRaceControls(races.controls.length)">
+        + Race
+      </button>
+    </div>
   </div>
 
   <hr>
   <div>
     <button
       type="submit"
-      class="btn btn-primary">
+      class="btn btn-primary"
+      style="margin-bottom: 20px;">
       Save Championship
     </button>
   </div>

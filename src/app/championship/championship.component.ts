@@ -4,8 +4,10 @@ import { Observable } from 'rxjs';
 
 import { Championship } from '../_models/championship';
 import { ChampionshipService } from '../_services/championship.service';
-import { RessourceType } from '../_models/ressource-type';
-import { RatingService } from '../_services/rating.service';
+import { DataObjectType } from '../_models/generic';
+import { Role } from '../_models/user';
+import { AuthenticationService } from '../_services/authentication.service';
+import { CarClass, Series } from '../_models/domain-codes';
 
 @Component({
   selector: 'ew-championship',
@@ -15,12 +17,18 @@ import { RatingService } from '../_services/rating.service';
 export class ChampionshipComponent implements OnInit {
   championshipId: number;
   championship$: Observable<Championship>;
-  ressourceType = RessourceType.championship; // used for rating-component
+
+  // const für Template
+  DAO = DataObjectType;
+  ROLE = Role;
+
+  SERIES = Series;
+  CARCLASS = CarClass;
 
   constructor(
     private route: ActivatedRoute,
     private championshipService: ChampionshipService,
-    private ratingService: RatingService
+    public authenticationService: AuthenticationService
   ) { }
 
   ngOnInit(): void {
@@ -28,11 +36,12 @@ export class ChampionshipComponent implements OnInit {
     this.championship$ = this.championshipService.getChampionship(this.championshipId);
   }
 
+  /*
   castVote(vote: number) {
     // console.log(vote);
 
     this.ratingService.castVote('CMP', this.championshipId, vote).subscribe(() => {
     });
   }
-
+*/
 }

@@ -2,7 +2,6 @@ import { UserCommentRaw } from './comment-raw';
 import { UserComment } from './comment';
 import { CommentStatus } from './domain-codes';
 import { environment } from '../../environments/environment';
-import { Data } from '@angular/router';
 import { DataObjectType, GenericFactory } from './generic';
 
 export class CommentFactory {

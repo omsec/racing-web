@@ -19,8 +19,16 @@
 
   <div class="row">
     <div class="col-sm-3">
-      <img src="https://placehold.it/50x50" alt="Game">
+      <img src="assets/images/fh4.jpg" height="50" width="50" alt="Game" title="{{cmp.gameText}}" class="rounded">
     </div>
+
+    <div class="col-sm-3">
+      <ew-rating
+        [rating]=cmp.rating
+        [showImmediately]=false>
+      </ew-rating>
+    </div>
+
     <!-- Schachtelungen sind scheinbar möglich - Rating in den Main-Service integriert ;-)
     <ng-container *ngIf="rating$ | async as rating; else loadingRating">
       <div class="col-sm-3">
@@ -39,18 +47,6 @@
       </ng-template>
     </ng-container>
     -->
-
-    <div class="col-sm-3">
-      <ew-rating
-        [rating]=cmp.ratingInfo.rating
-        [upVotes]=cmp.ratingInfo.upVotes
-        [downVotes]=cmp.ratingInfo.downVotes
-        [userVote]=cmp.ratingInfo.userVote
-        [showImmediately]=false
-        [canVote]=true
-        (voteEvent)=castVote($event)>
-      </ew-rating>
-    </div>
 
     <div *ngIf="cmp.races.length==1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Race</div>
     <div *ngIf="cmp.races.length>1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Races</div>
@@ -82,8 +78,21 @@
       </thead>
       <tbody>
         <tr *ngFor="let race of cmp.races">
-          <td><img src="https://placehold.it/50x50" alt="Series"></td>
-          <td><img src="https://placehold.it/50x50" alt="Class"></td>
+          <td [ngSwitch]="race.seriesCode">
+            <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="{{race.seriesText}}" class="rounded">
+            <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="{{race.seriesText}}" class="rounded">
+            <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="{{race.seriesText}}" class="rounded">
+          </td>
+          <td [ngSwitch]="race.carClassCode">
+            <img *ngSwitchCase="CARCLASS.A800" src="assets/icons/carclass/cc_a.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.B700" src="assets/icons/carclass/cc_b.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.C600" src="assets/icons/carclass/cc_c.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.D500" src="assets/icons/carclass/cc_d.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.S1900" src="assets/icons/carclass/cc_s1.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.S2998" src="assets/icons/carclass/cc_s2.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.X999" src="assets/icons/carclass/cc_x.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+            <img *ngSwitchCase="CARCLASS.allclasses" src="assets/icons/carclass/cc_open.png" alt="Car Class" title="{{race.carClassText}}" class="rounded">
+          </td>
           <td style="vertical-align: middle;"><a [routerLink]="['/courses', race.trackId]">{{race.trackName}}</a></td>
           <td *ngIf="race.carId" style="text-align: right; vertical-align: middle">{{race.carName}}</td> <!-- todo: link styling -->
           <td *ngIf="!race.carId" style="text-align:right; vertical-align: middle;">{{race.carThemeText}}</td>
@@ -92,7 +101,31 @@
     </table>
   </div>
 
+  <!-- social -->
+  <div class="form-row"><span class="col border-bottom border-primary"></span></div>
+  <p class="font-weight-light">What Drivers say</p>
 
+  <div class="form-row">
+    <div class="col-sm-3">
+      <ew-voting
+        [ownerType]="DAO.championship"
+        [ownerId]=cmp.metaInfo.id>
+      </ew-voting>
+    </div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+  </div>
+
+  <div class="form-row">
+    <div class="col">
+      <ew-comment
+        [readOnly]="authenticationService.currentUserValue.roleCode==ROLE.Guest"
+        [ownerType]=DAO.championship
+        [ownerId]=cmp.metaInfo.id>
+      </ew-comment>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #loading>

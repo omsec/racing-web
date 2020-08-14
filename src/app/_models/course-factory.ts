@@ -1,9 +1,10 @@
 import { CourseRaw, CourseNameSearchRaw, CourseBrowseRaw } from './course-raw';
 import { Course, CourseNameSearch, CourseBrowse } from './course';
 import { MetaInfoFactory } from './meta-info-factory';
-import { RatingFactory } from './rating-factory';
+// import { RatingFactory } from './rating-factory';
 import { ImageFactory } from './image-factory';
 import { Game, TrackType, DayTime, Weather, TimeProgression, CarClass, CarTheme } from './domain-codes';
+
 
 export class CourseFactory {
 
@@ -12,7 +13,7 @@ export class CourseFactory {
       ...courseRaw,
       metaInfo: MetaInfoFactory.fromRaw(courseRaw.metaInfo),
       // terrain: TagFactory.fromRaw(courseRaw.terrain),
-      ratingInfo: RatingFactory.fromRaw(courseRaw.ratingInfo),
+      rating: +courseRaw.rating,
       images: ImageFactory.fromRaw(courseRaw.images)
     };
   }
@@ -66,7 +67,8 @@ export class CourseFactory {
       description: '',
       // additional
       terrain: null, // ToDo: Factory (nötig?)
-      ratingInfo: RatingFactory.empty(),
+      // ratingInfo: RatingFactory.empty(),
+      rating: 0,
       images: null
     };
   }

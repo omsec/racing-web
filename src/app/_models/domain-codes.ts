@@ -150,7 +150,7 @@ export enum TrackDifficulty {
   easy,
   medium,
   hard,
-  verHard
+  veryHard
 }
 
 export enum Terrain {

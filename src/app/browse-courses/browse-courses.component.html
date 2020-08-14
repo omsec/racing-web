@@ -29,8 +29,17 @@
       <img *ngSwitchCase="SERIES.crossCountry" src="assets/icons/series/country.png" alt="Series" title="Cross Country" class="rounded">
       <!-- <img *ngSwitchCase="SERIES.streetScene" src="https://placehold.it/50x50" alt="Series" title="Street Scene" class="rounded"> -->
     </div>
-    <div class="col"><img src="https://placehold.it/50x50" alt="{{course.carClassText}}"></div>
-    <div class="col"><img src="https://placehold.it/50x50" alt="{{course.difficultyText}}"></div>
+    <div [ngSwitch]="course.carClassCode" class="col">
+      <img *ngSwitchCase="CARCLASS.A800" src="assets/icons/carclass/cc_a.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.B700" src="assets/icons/carclass/cc_b.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.C600" src="assets/icons/carclass/cc_c.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.D500" src="assets/icons/carclass/cc_d.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.S1900" src="assets/icons/carclass/cc_s1.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.S2998" src="assets/icons/carclass/cc_s2.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.X999" src="assets/icons/carclass/cc_x.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+      <img *ngSwitchCase="CARCLASS.allclasses" src="assets/icons/carclass/cc_open.png" alt="Car Class" title="{{course.carClassText}}" class="rounded">
+    </div>
+    <div class="col"><img src="https://placehold.it/50x50" alt="{{course.difficultyText}}" title="{{course.difficultyText}}" class="rounded"></div>
     <div class="col" style="color: darkgray">
       <p *ngIf="course.carId" style="text-align:right">{{ course.carName}}</p>
       <p *ngIf="course.carThemeCode && !course.carId" style="text-align:right">{{ course.carThemeText}}</p>

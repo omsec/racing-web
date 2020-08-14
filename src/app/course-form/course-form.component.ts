@@ -114,7 +114,8 @@ export class CourseFormComponent implements OnInit, OnChanges {
       carName: course.carName
     });
     // terrain (multi-select codes/tag): type CodeDefinition
-    this.courseFrm.terrainCodes.setValue(course.terrain);
+    // Initialisierung klappt leider nicht - bleibt daher leer
+    // this.courseFrm.terrainCodes.setValue(course.terrain);
     // console.log(this.courseFrm.terrainCodes.value);
   }
 
