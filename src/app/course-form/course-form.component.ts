@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, catchError, map, startWith } from 'rxjs/operators';
 
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import { Course, CourseNameSearch } from '../_models/course';
 import * as CodeTypes from '../_models/domain-codes';
 import { CourseService } from '../_services/course.service';
@@ -17,7 +18,7 @@ import { CourseFactory } from '../_models/course-factory';
   styleUrls: ['./course-form.component.css']
 })
 export class CourseFormComponent implements OnInit, OnChanges {
-  courseForm: FormGroup;
+  form: FormGroup;
   @Input() course: Course;
   @Input() editing = false; // modus (create, edit)
 
@@ -100,28 +101,41 @@ export class CourseFormComponent implements OnInit, OnChanges {
 
   // Felder initialisieren für edit/change-Modus (bearbeiten)
   private setFormValues(course: Course) {
-    this.courseForm.patchValue(course);
+    this.form.patchValue(course);
     // Felder mit anderem Namen im Formular als im Modell 'manuell' setzen :-/
-    this.courseFrm.courseName.setValue(course.name);
+    this.frm.laps.setValue(course.standardLaps);
+    this.frm.courseName.setValue(course.name);
     // type: CourseNameSearch
-    this.courseFrm.routeInfo.setValue({
+    this.frm.routeInfo.setValue({
       trackId: course.forzaRouteId,
       trackName: course.forzaRouteName,
     });
     // type: CarNameSearch
-    this.courseFrm.carInfo.setValue({
+    this.frm.carInfo.setValue({
       carId: course.carId,
       carName: course.carName
     });
     // terrain (multi-select codes/tag): type CodeDefinition
     // Initialisierung klappt leider nicht - bleibt daher leer
-    // this.courseFrm.terrainCodes.setValue(course.terrain);
-    // console.log(this.courseFrm.terrainCodes.value);
+    // this.frm.terrainCodes.setValue(course.terrain);
+    // console.log(this.frm.terrainCodes.value);
+    /*
+    this.frm.terrainCodes.setValue(course.terrain.map(terrain => {
+      return {
+        code: terrain.code,
+        text: terrain.text
+      };
+    }));
+    this.frm.terrainCodes.setValue([{
+      code: '2',
+      text: 'offroad'
+    }]);
+    */
   }
 
   // damit das Formular für add & edit benutzt werden kann
   private initForm() {
-    if (this.courseForm) { return; }
+    if (this.form) { return; }
 
     // Codes (Auswahlmöglichkeiten)
     this.Game = this.courseService.Game;
@@ -136,47 +150,50 @@ export class CourseFormComponent implements OnInit, OnChanges {
     this.TimeProgression = this.courseService.TimeProgression;
 
     // Formularmodell
-    // Section "Basics"
-    this.courseForm = this.formBuilder.group({
-    gameCode: [CodeTypes.Game.FH4, Validators.required],
-    courseName: ['', Validators.required],
-    terrainCodes: [null, Validators.required], // different type: set by ngx-chips control
-    difficultyCode: [null, Validators.required],
-    seriesCode: [null, Validators.required],
-    // route/fh/name
-    sharingCode: [0, [Validators.required, Validators.min(100000000), Validators.max(999999999)]],
-    routeInfo: [null as CourseNameSearch, []], // provided by Type-Ahead
-    // Section "Restrictions"
-    carClassCode: [CodeTypes.CarClass.allclasses],
-    carThemeCode: [CodeTypes.CarTheme.anythinggoes],
-    carInfo: [null as CarNameSearch, []], // provided by Type-Ahead
-    // Section "Conditions"
-    seasonCode: [null, Validators.required],
-    daytimeCode: [CodeTypes.DayTime.current, Validators.required],
-    weatherCode: [CodeTypes.Weather.current, Validators.required],
-    timeProgressionCode: [CodeTypes.TimeProgression.fixed, Validators.required],
-    // Section "Additional"
-    laps: [3, [Validators.required, Validators.min(1), Validators.max(50)]],
-    distanceKM: [],
-    description: ['']
-    // ToDo: VisibilityCode (=> metaInfo)
-  });
+    this.form = this.formBuilder.group({
+      // Section "Basics"
+      gameCode: [CodeTypes.Game.FH4, Validators.required],
+      courseName: ['', Validators.required],
+      sharingCode: [0, [Validators.required, Validators.min(100000000), Validators.max(999999999)]],
+      description: [''],
+      // Section "Blueprint"
+      routeInfo: [null as CourseNameSearch, Validators.required], // provided by Type-Ahead; // ToDo: Validierung geht nicht; Custom nötig?
+      terrainCodes: [null, Validators.required], // ToDO: Initialization?
+      seriesCode: [null, Validators.required],
+      difficultyCode: [null, Validators.required],
+      // Section "Restrictions"
+      carClassCode: [CodeTypes.CarClass.allclasses, Validators.required],
+      carThemeCode: [CodeTypes.CarTheme.anythinggoes, Validators.required],
+      carInfo: [null as CarNameSearch, []], // provided by Type-Ahead
+      // Sections "Conditions"
+      seasonCode: [null, Validators.required],
+      daytimeCode: [CodeTypes.DayTime.current, Validators.required],
+      weatherCode: [CodeTypes.Weather.current, Validators.required],
+      // Section "Additional"
+      laps: [3, [Validators.required, Validators.min(1), Validators.max(50)]],
+      timeProgressionCode: [CodeTypes.TimeProgression.fixed, Validators.required],
+      distanceKM: [null as number]
+    });
 
   }
 
   // Hilfsmethode für einfacheren Zugriff auf die Controls
-  get courseFrm() { return this.courseForm.controls; }
+  get frm() { return this.form.controls; }
+
+  OnCourseSelected(evt: NgbTypeaheadSelectItemEvent) {
+    this.frm.seriesCode.setValue(evt.item.seriesCode);
+  }
 
   onSubmit() {
     this.submitted = true;
-    // console.log(this.courseFrm.carInfo.value.carId);
-    // console.log(this.courseFrm.terrain.value.code);
+    // console.log(this.frm.carInfo.value.carId);
+    // console.log(this.frm.terrain.value.code);
 
     // console.log(this.authenticationService.currentUserValue.userId);
 
 
     // Falls das Formular ungültig ist, abbrechen
-    if (this.courseForm.invalid) { return; }
+    if (this.form.invalid) { return; }
 
     const newCourse = CourseFactory.empty(); // besser mit Spread-Operator aus this.Course?
     // override as needed
@@ -188,40 +205,41 @@ export class CourseFormComponent implements OnInit, OnChanges {
     }
     newCourse.metaInfo.sharingModeCode = CodeTypes.SharingMode.visibleToAll; // momentan statisch
     // std info
-    newCourse.gameCode = this.courseFrm.gameCode.value;
-    newCourse.name = this.courseFrm.courseName.value;
+    newCourse.gameCode = this.frm.gameCode.value;
+    newCourse.name = this.frm.courseName.value;
     // cst info block I
     // https://pietschsoft.com/post/2008/10/14/javascript-gem-null-coalescing-using-the-or-operator
     newCourse.designedBy = this.authenticationService.currentUserValue.xBox
     || this.authenticationService.currentUserValue.discord
     || this.authenticationService.currentUserValue.username,
     // restrictions
-    newCourse.carThemeCode = this.courseFrm.carThemeCode.value,
-    newCourse.carId = this.courseFrm.carInfo?.value?.carId || null, // 0 durch null ersetzen
-    newCourse.carClassCode = this.courseFrm.carClassCode.value,
+    newCourse.carThemeCode = this.frm.carThemeCode.value,
+    newCourse.carId = this.frm.carInfo?.value?.carId || null, // 0 durch null ersetzen
+    newCourse.carClassCode = this.frm.carClassCode.value,
     // routing (actually mandatory but not always provided)
-    newCourse.forzaRouteId = this.courseFrm.routeInfo?.value?.trackId || null,
+    newCourse.forzaRouteId = this.frm.routeInfo?.value?.trackId || null,
     // cst info block II
-    newCourse.standardLaps = this.courseFrm.laps.value,
-    newCourse.seasonCode = this.courseFrm.seasonCode.value,
-    newCourse.daytimeCode = this.courseFrm.daytimeCode.value,
-    newCourse.weatherCode = this.courseFrm.weatherCode.value,
-    newCourse.timeProgressionCode = this.courseFrm.timeProgressionCode.value,
+    newCourse.standardLaps = this.frm.laps.value,
+    newCourse.seasonCode = this.frm.seasonCode.value,
+    newCourse.daytimeCode = this.frm.daytimeCode.value,
+    newCourse.weatherCode = this.frm.weatherCode.value,
+    newCourse.timeProgressionCode = this.frm.timeProgressionCode.value,
     // cst info block III,
-    newCourse.distanceKM = this.courseFrm.distanceKM.value,
-    newCourse.sharingCode = this.courseFrm.sharingCode.value,
-    newCourse.difficultyCode = this.courseFrm.difficultyCode.value,
-    newCourse.seriesCode = this.courseFrm.seriesCode.value,
+    newCourse.distanceKM = this.frm.distanceKM.value,
+    newCourse.sharingCode = this.frm.sharingCode.value,
+    newCourse.difficultyCode = this.frm.difficultyCode.value,
+    newCourse.seriesCode = this.frm.seriesCode.value,
     // additional
-    // console.log(this.courseFrm.terrain.value.code);
-    newCourse.terrain = this.courseFrm.terrainCodes.value.map(selection => {
+    // console.log(this.frm.terrain.value.code);
+    newCourse.terrain = this.frm.terrainCodes.value.map(selection => {
       return {
         code: selection.code,
         text: selection.text
       };
     });
+    newCourse.description = this.frm.description.value;
 
     this.submitCourse.emit(newCourse);
-    // this.courseForm.reset(); // stattdessen navigieren auf die neue strecke
+    // this.form.reset(); // stattdessen navigieren auf die neue strecke
   }
 }
