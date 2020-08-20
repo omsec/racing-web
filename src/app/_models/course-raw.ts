@@ -90,3 +90,9 @@ export interface CourseBrowseRaw {
   timeProgressionCode: number;
   timeProgressionText: string;
 }
+
+export interface TrackUsageRaw {
+  championshipId: number;
+  championshipName: string;
+  raceNumbers: string;
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // HttpClientModule im Modul importieren
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment'; // zentrale config
@@ -27,11 +27,11 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username: string, password: string): Observable<User> {
+  login(username: string, password: string, ipAddress: string): Observable<User> {
     // der globale interceptor (jwt) hängt halt auch hier das authorization header feld hinzu; macht nichts
 
     return this.http.post<UserRaw>(
-      `${environment.apiUrl}/login`, { username, password } )
+      `${environment.apiUrl}/login`, { username, password, ipAddress } )
       .pipe(map(userRaw => UserFactory.fromRaw(userRaw)))
       .pipe(map(user => {
         // local storage = client persistence (user bleibt eingeloggt)
@@ -52,8 +52,8 @@ export class AuthenticationService {
 
   // der ersteller (owner) eines inhalts oder ein administrator darf es verändern/löschen
   canModify(objectCreatorId: number): boolean {
-    // lint meldet hier einen falschen fehler: es darf nicht === sein
     // console.log('booh'); // Todo: Warum wird das so oft gerufen?
+    // tslint:disable-next-line
     return (objectCreatorId == this.currentUserValue.userId) || (this.currentUserValue.roleCode == Role.Administrator);
   }
 

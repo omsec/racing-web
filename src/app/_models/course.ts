@@ -91,3 +91,9 @@ export interface CourseBrowse {
   timeProgressionCode: number;
   timeProgressionText: string;
 }
+
+export interface TrackUsage {
+  championshipId: number;
+  championshipName: string;
+  raceNumbers: string;
+}

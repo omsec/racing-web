@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../_services/authentication.service';
+import { IpAddressService } from '../_services/ip-service.service';
 
 @Component({
   selector: 'ew-login',
@@ -19,14 +20,23 @@ export class LoginComponent implements OnInit {
 
   returnUrl: string; // falls die Login-Komponente von einer protected Seite aufgerufen wurde
 
-  error = ''; // Fehlermeldung (texct)
+  error = ''; // Fehlermeldung (text)
+
+  ipAddress: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private ip: IpAddressService
   ) { }
+
+  getIP() {
+    this.ip.getIPAddress().subscribe((res: any) => {
+      this.ipAddress = res.ip;
+    });
+  }
 
   ngOnInit(): void {
     // Formularmodell bauen => Controls und Regeln
@@ -35,7 +45,8 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    // ToDo: Re-routing Logik;
+    // we won't wait for the IP-Address (external service) to proceed with the login
+    this.getIP();
   }
 
   // Hilfsmethode für einfacheren Zugriff auf dei CIntrols im HTML-Template
@@ -49,7 +60,7 @@ export class LoginComponent implements OnInit {
     if (this.loginGroup.invalid) { return; }
 
     this.loading = true;
-    this.authenticationService.login(this.loginForm.username.value, this.loginForm.password.value)
+    this.authenticationService.login(this.loginForm.username.value, this.loginForm.password.value, this.ipAddress)
     .pipe(first()) // nur das erste item im observable stream (falls wiedererwarten mehrere kommen)
     .subscribe(
       () => {

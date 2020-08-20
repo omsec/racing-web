@@ -5,7 +5,7 @@ import { retry, map, catchError } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { CourseRaw, CourseNameSearchRaw, CourseBrowseRaw } from '../_models/course-raw';
-import { Course, CourseNameSearch, CourseBrowse } from '../_models/course';
+import { Course, CourseNameSearch, CourseBrowse, TrackUsage } from '../_models/course';
 import { CourseFactory } from '../_models/course-factory';
 import { CodeReaderService } from './code-reader.service';
 import { CodeDefinition, CodeTypes, Game } from '../_models/domain-codes';
@@ -155,6 +155,17 @@ export class CourseService {
       { id: trackId },
       { responseType: 'text'}
     ).pipe(catchError(this.errorHandler));
+  }
+
+  getTrackUsage(trackId: number): Observable<TrackUsage[]> {
+    console.log('go');
+    return this.http.post<any>(
+      `${environment.apiUrl}/listTrackUsage`, { trackId })
+      .pipe(
+        retry(3),
+        map((trackUsagesRaw => trackUsagesRaw.map(trackUsageRaw => CourseFactory.fromRawTrackUsage(trackUsageRaw)))),
+        catchError(this.errorHandler)
+      );
   }
 
   // Für lokale Fehrlebehandlung (interceptors sind global)

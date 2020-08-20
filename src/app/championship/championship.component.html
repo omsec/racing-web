@@ -50,7 +50,8 @@
 
     <div *ngIf="cmp.races.length==1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Race</div>
     <div *ngIf="cmp.races.length>1" class="col-sm-3" style="text-align: center">{{cmp.races.length}} Races</div>
-    <!-- <div class="col-sm user" style="text-align:right">by <a class="user" [routerLink]="['/profiles', cmp.metaInfo.createdId]">{{cmp.metaInfo.createdName}}</a></div> -->
+    <div class="col-sm user" style="text-align:right">by <a class="user" [routerLink]="['/profiles', cmp.metaInfo.createdId]">{{cmp.metaInfo.createdName}}</a></div>
+    <!--
     <div class="col-sm user" style="text-align:right">
       <button
         type="button"
@@ -58,10 +59,10 @@
         placement="bottom"
         popoverTitle="Badge"
         ngbPopover="Last seen XXX">
-        <!-- ToDo: Irgend ein Rang/Badge System ;-) -->
         by {{ cmp.metaInfo.createdName }}
       </button>
     </div>
+    -->
   </div>
 
   <!-- https://medium.com/@mjthakur413/how-to-create-table-in-angular-7-using-ngfor-3c2c0875b955 -->

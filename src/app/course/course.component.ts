@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ResolveStart } from '@angular/router';
 
-import { Course } from '../_models/course';
+import { Course, TrackUsage } from '../_models/course';
 import { CourseService } from '../_services/course.service';
 import { AuthenticationService } from '../_services/authentication.service';
-import { Game, TrackType, Series, CarClass, Terrain, Season, Weather, Role } from '../_models/domain-codes';
+import { Game, TrackType, Series, CarClass, Terrain, Season, Weather, Role, TrackDifficulty } from '../_models/domain-codes';
 import { Lightbox } from 'ngx-lightbox';
 import { DataObjectType } from '../_models/generic';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ew-course',
@@ -16,6 +17,7 @@ import { DataObjectType } from '../_models/generic';
 export class CourseComponent implements OnInit {
   courseId: number;
   course: Course;
+  trackUsage$: Observable<TrackUsage[]>;
 
   // CodeTypes: Enums müssen in der Komponente als Variable deklariert werden,
   // damit sie im Template (ohne Formulamodell) benutzt werden können
@@ -27,6 +29,7 @@ export class CourseComponent implements OnInit {
   TERRAIN = Terrain;
   SEASON = Season;
   WEATHER = Weather;
+  DIFFICULTY = TrackDifficulty;
 
   // used by comments
   DAO = DataObjectType;
@@ -53,6 +56,8 @@ export class CourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params.courseId; // gemäss app.routing
+    this.trackUsage$ = this.courseService.getTrackUsage(this.courseId);
+
     this.courseService.getSingle(this.courseId).subscribe(res => {
       this.course = res;
 

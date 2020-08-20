@@ -1,5 +1,5 @@
-import { CourseRaw, CourseNameSearchRaw, CourseBrowseRaw } from './course-raw';
-import { Course, CourseNameSearch, CourseBrowse } from './course';
+import { CourseRaw, CourseNameSearchRaw, CourseBrowseRaw, TrackUsageRaw } from './course-raw';
+import { Course, CourseNameSearch, CourseBrowse, TrackUsage } from './course';
 import { MetaInfoFactory } from './meta-info-factory';
 // import { RatingFactory } from './rating-factory';
 import { ImageFactory } from './image-factory';
@@ -28,6 +28,12 @@ export class CourseFactory {
   static fromRawCourseBrowse(courseBrowseRaw: CourseBrowseRaw): CourseBrowse {
     return {
       ...courseBrowseRaw
+    };
+  }
+
+  static fromRawTrackUsage(trackUsageRaw: TrackUsageRaw): TrackUsage {
+    return {
+      ...trackUsageRaw
     };
   }
 

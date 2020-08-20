@@ -61,7 +61,13 @@
 </div>
 
 <div class="form-row section">
-  <div class="col-sm-6"><img src="https://placehold.it/50x50" class="thumbnail float-right" alt="warning"></div> <!-- auch 50x50 machen -->
+  <div class="col-sm-6">
+    <img *ngIf="course?.difficultyCode == DIFFICULTY.veryEasy" src="assets/icons/difficulty/very_easy.png" class="thumbnail float-right rounded" alt="difficulty" title="{{course?.difficultyText}}">
+    <img *ngIf="course?.difficultyCode == DIFFICULTY.easy" src="assets/icons/difficulty/easy.png" class="thumbnail float-right rounded" alt="difficulty" title="{{course?.difficultyText}}">
+    <img *ngIf="course?.difficultyCode == DIFFICULTY.medium" src="assets/icons/difficulty/medium.png" class="thumbnail float-right rounded" alt="difficulty" title="{{course?.difficultyText}}">
+    <img *ngIf="course?.difficultyCode == DIFFICULTY.hard" src="assets/icons/difficulty/hard.png" class="thumbnail float-right rounded" alt="difficulty" title="{{course?.difficultyText}}">
+    <img *ngIf="course?.difficultyCode == DIFFICULTY.veryHard" src="assets/icons/difficulty/very_hard.png" class="thumbnail float-right rounded" alt="difficulty" title="{{course?.difficultyText}}">
+  </div>
   <div class="col-sm-3"><h6>Difficulty</h6></div>
   <div class="col-sm-3"><p class="text-right">{{ course?.difficultyText }}</p></div>
 </div>
@@ -159,6 +165,47 @@
     </ew-comment>
   </div>
 </div>
+
+<div class="form-row" style="margin-top: 20px;"><span class="col border-bottom border-primary"></span></div>
+<p class="font-weight-light">Analytics</p>
+
+<ng-container *ngIf="trackUsage$ | async as usage; else loadingUsage">
+  <div *ngIf="usage.length==0" class="form-row">
+    <div class="col">
+      <p><i>This course is not used in any championships yet.</i></p>
+    </div>
+  </div>
+
+  <div *ngIf="usage.length>0">
+    <div class="form-row">
+      <div class="col">
+        <p>Events hosting this course:</p>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <table class="table table-borderless table-responsive-sm">
+        <thead>
+          <tr>
+            <th scope="col">Championship</th>
+            <th scope="col">Race(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cmp of usage">
+            <td><a [routerLink]="['/championships', cmp.championshipId]">{{ cmp.championshipName }}</a> </td>
+            <td>{{ cmp.raceNumbers }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #loadingUsage>
+  <div class="spinner-border"></div>
+</ng-template>
 
 <div class="form-row" style="margin-top: 20px;"><span class="col border-bottom border-primary"></span></div>
 <p class="font-weight-light">My Stuff</p>

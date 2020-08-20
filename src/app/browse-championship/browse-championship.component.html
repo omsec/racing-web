@@ -19,7 +19,7 @@
   -->
 
   <div class="row">
-    <div class="col"><img src="https://placehold.it/50x50" alt="{{cmp.countRaces}}"></div>
+    <div class="col"><img src="https://placehold.it/50x50" alt="races" title="{{cmp.countRaces}} race(s)" class="rounded"></div>
     <div [ngSwitch]="cmp.seriesCode" class="col">
       <img *ngSwitchCase="SERIES.roadRacing" src="assets/icons/series/road.png" alt="Series" title="Road Racing" class="rounded">
       <img *ngSwitchCase="SERIES.dirtRacing" src="assets/icons/series/dirt.png" alt="Series" title="Dirt Racing" class="rounded">
