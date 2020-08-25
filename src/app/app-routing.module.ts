@@ -93,6 +93,7 @@ const routes: Routes = [
   {
     path: 'championship',
     component: ChampionshipHomeComponent,
+    resolve: { codes: CodeResolverService},
     canActivate: [AuthenticationGuard]
   },
   {

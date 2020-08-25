@@ -158,7 +158,6 @@ export class CourseService {
   }
 
   getTrackUsage(trackId: number): Observable<TrackUsage[]> {
-    console.log('go');
     return this.http.post<any>(
       `${environment.apiUrl}/listTrackUsage`, { trackId })
       .pipe(

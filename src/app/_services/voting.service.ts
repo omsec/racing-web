@@ -33,7 +33,7 @@ export class VotingService {
       );
   }
 
-  registerVote(ownerType: DataObjectType, ownerId: number, vote: VoteAction): Observable<any> {
+  registerVote(ownerType: DataObjectType, ownerId: number, vote: VoteAction): Observable<boolean> {
 
     const voteData = VoteFactory.empty();
     voteData.itemType = ownerType;
@@ -41,11 +41,21 @@ export class VotingService {
     voteData.userId = this.authenticationService.currentUserValue.userId;
     voteData.vote = vote;
 
+    // Service liefert { promoted: boolean } daher <any> als Post-Type und "unsafe" cast in res
+    // map macht somit transform
+    return this.http.put<any>(
+      `${environment.apiUrl}/castVote`,
+      voteData).pipe(
+        map(res => res.promoted),
+        catchError(this.errorHandler));
+
+    /*
     return this.http.put(
       `${environment.apiUrl}/castVote`,
       voteData,
       { responseType: 'text' }
     ).pipe(catchError(this.errorHandler));
+    */
   }
 
   // Für lokale Fehrlebehandlung (interceptors sind global)

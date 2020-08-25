@@ -4,6 +4,7 @@ import { DataObjectType } from '../_models/generic';
 import { Voting } from '../_models/voting';
 import { VoteAction } from '../_models/vote';
 import { VotingService } from '../_services/voting.service';
+import { AppToastService } from '../_services/app-toast.service';
 
 @Component({
   selector: 'ew-voting',
@@ -21,7 +22,9 @@ export class VotingComponent implements OnInit {
   // "const" für's Template
   VOTE_ACTION = VoteAction;
 
-  constructor(private votingService: VotingService) { }
+  constructor(
+    private votingService: VotingService,
+    public toastService: AppToastService) { }
 
   ngOnInit(): void {
     this.votingService.getSingle(this.ownerType, this.ownerId).subscribe(
@@ -78,8 +81,13 @@ export class VotingComponent implements OnInit {
         break;
       */
 
-    // kein content/response vom service (nur status)
-    this.votingService.registerVote(this.ownerType, this.ownerId, vote).subscribe();
+    this.votingService.registerVote(this.ownerType, this.ownerId, vote).subscribe(
+      promoted => {
+        if (promoted) {
+          this.toastService.show('you can now comment and share stuff with us :-)', { classname: 'bg-success text-light', delay: 5000});
+        }
+      }
+    );
 
     // der lokale Status wird hier ausserhalb vom Observable gesetzt, damit der Screen auf jeden Fall & sofort stimmt :-)
     this.currentVote = vote;
